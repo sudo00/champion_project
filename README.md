@@ -19,3 +19,8 @@
 /frontend - клиентское приложение
 
 /backend - серверное приложение
+
+
+# BACKEND
+
+<a href="https://petstore.swagger.io/?url=https://github.com/sudo00/champion_project/blob/main/swagger.yml">Swagger-UI</a>
