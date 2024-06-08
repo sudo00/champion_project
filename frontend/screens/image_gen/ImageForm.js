@@ -1,4 +1,4 @@
-import { View } from "react-native"
+import { StyleSheet, View } from "react-native"
 import { useEffect, useState } from "react"
 import { HStack, VStack, Text, Icon, ScrollView, Textarea, TextareaInput } from '@gluestack-ui/themed';
 import { Input, InputField } from '@gluestack-ui/themed';
@@ -79,7 +79,7 @@ const ImageForm = ({ }) => {
                             </SelectDragIndicatorWrapper>
                             <SelectItem label="МБ" value="ux" />
                             <SelectItem label="Email" value="web" />
-                            <SelectItem label="ИБ" value="cross-platform"/>
+                            <SelectItem label="ИБ" value="cross-platform" />
                             <SelectItem label="Пуш-уведомление" value="ui" />
                         </SelectContent>
                     </SelectPortal>
@@ -101,9 +101,9 @@ const ImageForm = ({ }) => {
                             </SelectDragIndicatorWrapper>
                             <SelectItem label="Потребительский кредит" value="ux" />
                             <SelectItem label="Кредитная карта" value="web" />
-                            <SelectItem label="Кредит под залог недвижимости" value="cross-platform"/>
-                            <SelectItem label="Премиум" value="ui"/>
-                            
+                            <SelectItem label="Кредит под залог недвижимости" value="cross-platform" />
+                            <SelectItem label="Премиум" value="ui" />
+
                         </SelectContent>
                     </SelectPortal>
                 </Select>
@@ -120,9 +120,9 @@ const ImageForm = ({ }) => {
                     isCollapsible={true}
                     isDisabled={false}
                 >
-                    <AccordionItem value="a">
-                        <AccordionHeader backgroundColor={EXTRA_COLOR}>
-                            <AccordionTrigger>
+                    <AccordionItem value="a" backgroundColor={EXTRA_COLOR}>
+                        <AccordionHeader  m="$0">
+                            <AccordionTrigger m="0$">
                                 {({ isExpanded }) => {
                                     return (
                                         <>
@@ -139,9 +139,9 @@ const ImageForm = ({ }) => {
                                 }}
                             </AccordionTrigger>
                         </AccordionHeader>
-                            <AccordionContent backgroundColor={EXTRA_COLOR}>
-                            <VStack space="md">
-                                <Textarea>
+                        <AccordionContent  pt="2$" mt="0$">
+                            <VStack space="md" m="0$">
+                                <Textarea m="0$">
                                     <TextareaInput value={positivePrompt} onChangeText={setPositivePrompt} placeholder="Промт" />
                                 </Textarea>
                                 <Textarea>
@@ -190,3 +190,11 @@ const ImageForm = ({ }) => {
 }
 
 export default ImageForm;
+
+const styles = StyleSheet.create(
+    {
+        noTopMargin: {
+            margin: "0",
+        }
+    }
+)

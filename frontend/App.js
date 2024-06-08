@@ -16,7 +16,7 @@ const headerStyle = {
   backgroundColor: "#F4F6FA"
 }
 const headerLeft = () => (
-  <Image ml='$5' style={styles.headerLogoImage} source={require("./assets/icon.png")} />
+  <Image ml='$5' style={styles.headerLogoImage} source={require("./assets/bank_logo.png")} />
 )
 
 const headerRight = () => {

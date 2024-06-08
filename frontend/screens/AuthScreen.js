@@ -5,6 +5,9 @@ const AuthScreen = ({navigation}) => {
     const onRegistration = () =>  {
         navigation.replace("Registration")
     }
+    const onLogin = () => {
+        navigation.replace("ImageGenerator")
+    }
     const [login, setLogin] = useState("")
     const [password, setPassword] = useState("")
     return (
@@ -20,7 +23,7 @@ const AuthScreen = ({navigation}) => {
                     <Input>
                         <InputField value={password} type="password" placeholder="Пароль" onChangeText={setPassword}/>
                     </Input>
-                    <Button>
+                    <Button onPress={onLogin}>
                         <ButtonText>Войти</ButtonText>
                     </Button>
                     <Button variant="outline" onPress={onRegistration}>

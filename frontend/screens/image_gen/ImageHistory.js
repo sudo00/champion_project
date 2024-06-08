@@ -5,8 +5,8 @@ import { HStack, ScrollView, VStack } from "@gluestack-ui/themed";
 
 const ImageHistory = ({ }) => {
     return (
-        <ScrollView w="66%" h="100%">
-            <VStack pl="$10" pr="$10" space="md">
+        <ScrollView w="100%" h="100%">
+            <VStack p="$10" space="md">
                 <ImageResponseItem />
                 <ImageResponseItem />
             </VStack>
