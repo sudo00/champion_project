@@ -1,4 +1,4 @@
-from diffusers import StableDiffusionPipeline
+from diffusers import StableDiffusionPipeline, DiffusionPipeline
 import torch
 from PIL import Image
 import json
@@ -17,7 +17,7 @@ def txt2img(config) -> Image:
     n_user = config['user_parameters']['negative_prompt']
     height = config['user_parameters']['height']
     width = config['user_parameters']['width']
-    num_images_per_prompt = config[['user_parameters']'num_images_per_prompt']
+    num_images_per_prompt = config['user_parameters']['num_images_per_prompt']
 
     p_start = config['inference']['p_start']
     p_end = config['inference']['p_end']
@@ -29,7 +29,14 @@ def txt2img(config) -> Image:
     num_inference_steps = config['num_inference_steps']
     
     
+
+
+
+
     pipe = StableDiffusionPipeline.from_pretrained(sd_path, torch_dtype=torch.float16)
+    
+
+    # pipe = DiffusionPipeline.from_pretrained(sd_path, use_safetensors=True)
     pipe.load_lora_weights(pretrained_model_name_or_path_or_dict=lora_dir, weight_name=lora_path, adapter_name="gpb")
     pipe.to(device)
 
@@ -38,7 +45,7 @@ def txt2img(config) -> Image:
 
     image = pipe(
         positive_prompt, negative_prompt = negative_prompt,\
-        height = height, width = width,  num_inference_steps=num_inference_steps, num_images_per_prompt = num_images_per_prompt, \
+        height = height, width = width,  num_inference_steps=num_inference_steps, num_images_per_prompt = num_images_per_prompt, 
         cross_attention_kwargs={"scale": lora_scale}).images[0]
 
     return image 
