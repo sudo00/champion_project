@@ -141,7 +141,6 @@ const ImageForm = ({ }) => {
 
 
 
-
                 <Text size="xl" bold="true">Данные о клиенте</Text>
                 <Button onPress={"getImage"} size="lg">
                     <ButtonText>Загрузить</ButtonText>
