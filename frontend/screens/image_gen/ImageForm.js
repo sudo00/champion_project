@@ -132,12 +132,12 @@ const ImageForm = ({ }) => {
                 <Text size="md">Цвет фона</Text>
                 <Center>
                     <HStack>
-                        <TouchableOpacity><ColorSquare colorHex={"#F00000"}/></TouchableOpacity>
-                        <TouchableOpacity><ColorSquare colorHex={"#F00000"}/></TouchableOpacity>
-                        <TouchableOpacity><ColorSquare colorHex={"#F00000"}/></TouchableOpacity>
+                        <TouchableOpacity><ColorSquare colorHex={"#F00000"} /></TouchableOpacity>
+                        <TouchableOpacity><ColorSquare colorHex={"#F00000"} /></TouchableOpacity>
+                        <TouchableOpacity><ColorSquare colorHex={"#F00000"} /></TouchableOpacity>
                     </HStack>
                 </Center>
-                <ColorBox colorHex={"#F00000"} colorName={"test"} isShowText={true}/>
+                <ColorBox colorHex={"#F00000"} colorName={"test"} isShowText={true} />
 
 
 
@@ -180,30 +180,19 @@ const ImageForm = ({ }) => {
                                 <Textarea>
                                     <TextareaInput value={negativePrompt} onChangeText={setNegativePrompt} placeholder="Негативный промт" />
                                 </Textarea>
-                                <Text size="md">Пресеты</Text>
+                                {/* <Text size="md">Пресеты</Text>
                                 <HStack space="3xl">
                                     <Badge size="md" variant="outline" borderRadius="$full" action="info">
                                         <BadgeText>Опция 1</BadgeText>
-                                        {/* <BadgeIcon as={GlobeIcon} ml="$2" /> */}
+                            
                                     </Badge>
                                     <Badge size="md" variant="outline" borderRadius="$full" action="info">
                                         <BadgeText>Опция 1</BadgeText>
-                                        {/* <BadgeIcon as={GlobeIcon} ml="$2" /> */}
                                     </Badge>
                                     <Badge size="md" variant="outline" borderRadius="$full" action="info">
                                         <BadgeText>Удалить фон таким образом, чтобы ......</BadgeText>
-                                        {/* <BadgeIcon as={GlobeIcon} ml="$2" /> */}
                                     </Badge>
-
-                                    {
-                                        // extraOptions.map(item => {
-                                        //     <Badge size="lg" variant="outline" borderRadius="$full" action="info">
-                                        //         <BadgeText>{item}</BadgeText>
-                                        //         {/* <BadgeIcon as={GlobeIcon} ml="$2" /> */}
-                                        //     </Badge>
-                                        // })
-                                    }
-                                </HStack>
+                                </HStack> */}
                             </VStack>
                         </AccordionContent>
                     </AccordionItem>
