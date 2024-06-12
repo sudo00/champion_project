@@ -1,0 +1,32 @@
+{    
+    "num_inference_steps": 30,
+    "lora_path": "model/Lora_30k_data5.safetensors",
+    "save_path": "images/image.png",
+    "device": "cpu",
+    "lora_scale": 0.9,
+    "guidance_scale": 2.5,
+    "strength": 1.0,
+
+    "user_parameters":{
+        "user_mode": "inference", 
+        "height": 512,
+        "width": 512,
+        "positive_prompt": "a Christmas tree next to a decorated cozy house",
+        "negative_prompt": "",
+        "num_images_per_prompt": 1
+    },
+    "inference":{
+        "stable_diffusion_path":"runwayml/stable-diffusion-v1-5",
+        "p_start": "Create a 3D illustration of",
+        "p_end": "with minimal details, smooth surfaces, and a cartoon-like appearance.  Ensure the design is sleek and modern. Ensure the style is low-detail and similar to a cartoon or simplified 3D model in gbp style.",
+        "n_end": "Avoid realistic textures, detailed reflections, and complex components. Do not add intricate details or a detailed background. ((((ugly)))), (((duplicate))), ((morbid)), ((mutilated)), [out of frame],blurry, (((bad proportions))), (((disfigured))), out of frame, ugly"
+    },
+    "inpaint": {
+        "stable_diffusion_path": "runwayml/stable-diffusion-inpainting",
+        "img_path": "",
+        "mask_path":"",
+        "p_start": "Create a 3D illustration of",
+        "p_end": "with minimal details, smooth surfaces, and a cartoon-like appearance.  Ensure the design is sleek and modern. Ensure the style is low-detail and similar to a cartoon or simplified 3D model in gbp style.",
+        "n_end": "Avoid realistic textures, detailed reflections, and complex components. Do not add intricate details or a detailed background. ((((ugly)))), (((duplicate))), ((morbid)), ((mutilated)), [out of frame],blurry, (((bad proportions))), (((disfigured))), out of frame, ugly"
+    }
+}
