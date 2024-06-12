@@ -1,6 +1,6 @@
-import { StyleSheet, View } from "react-native"
+import { StyleSheet, TouchableOpacity, View } from "react-native"
 import { useEffect, useState } from "react"
-import { HStack, VStack, Text, Icon, ScrollView, Textarea, TextareaInput } from '@gluestack-ui/themed';
+import { HStack, VStack, Text, Icon, ScrollView, Textarea, TextareaInput, Center } from '@gluestack-ui/themed';
 import { Input, InputField } from '@gluestack-ui/themed';
 import { Divider } from "@gluestack-ui/themed"
 import {
@@ -35,6 +35,8 @@ import {
 } from "@gluestack-ui/themed"
 import { Badge, BadgeText } from "@gluestack-ui/themed"
 import { EXTRA_COLOR } from "../../ColorConst";
+import ColorBox from "../../components/ColorBox";
+import ColorSquare from "../../components/ColorSquare";
 
 const ImageForm = ({ }) => {
     const [imageWidth, setImageWidth] = useState(512)
@@ -62,30 +64,7 @@ const ImageForm = ({ }) => {
                 <Input>
                     <InputField value={imagesCount} onChangeText={setImagesCount} valueplaceholder="Количество изображений" />
                 </Input>
-
-                <Text size="md">Канал доставки</Text>
-                <Select>
-                    <SelectTrigger variant="outline" size="md">
-                        <SelectInput value={channel} placeholder="Канал доставки изображения" onChangeText={setChannel} />
-                        <SelectIcon mr="$3">
-                            <Icon as={ChevronDownIcon} />
-                        </SelectIcon>
-                    </SelectTrigger>
-                    <SelectPortal>
-                        <SelectBackdrop />
-                        <SelectContent>
-                            <SelectDragIndicatorWrapper>
-                                <SelectDragIndicator />
-                            </SelectDragIndicatorWrapper>
-                            <SelectItem label="МБ" value="ux" />
-                            <SelectItem label="Email" value="web" />
-                            <SelectItem label="ИБ" value="cross-platform" />
-                            <SelectItem label="Пуш-уведомление" value="ui" />
-                        </SelectContent>
-                    </SelectPortal>
-                </Select>
-
-                <Text size="md">Тип продукта</Text>
+                <Text size="md">Тип рекламируемого продукта</Text>
                 <Select>
                     <SelectTrigger variant="outline" size="md">
                         <SelectInput value={productType} placeholder="Тип продукта" onChangeText={setProductType} />
@@ -103,10 +82,65 @@ const ImageForm = ({ }) => {
                             <SelectItem label="Кредитная карта" value="web" />
                             <SelectItem label="Кредит под залог недвижимости" value="cross-platform" />
                             <SelectItem label="Премиум" value="ui" />
-
                         </SelectContent>
                     </SelectPortal>
                 </Select>
+
+                <Text size="xl" bold="true">Фон</Text>
+                <Text size="md">Тип баннера</Text>
+                <Select>
+                    <SelectTrigger variant="outline" size="md">
+                        <SelectInput value={channel} placeholder="Соотношение сторон баннера на выходе" onChangeText={setChannel} />
+                        <SelectIcon mr="$3">
+                            <Icon as={ChevronDownIcon} />
+                        </SelectIcon>
+                    </SelectTrigger>
+                    <SelectPortal>
+                        <SelectBackdrop />
+                        <SelectContent>
+                            <SelectDragIndicatorWrapper>
+                                <SelectDragIndicator />
+                            </SelectDragIndicatorWrapper>
+                            <SelectItem label="МБ" value="ux" />
+                            <SelectItem label="Email" value="web" />
+                            <SelectItem label="ИБ" value="cross-platform" />
+                            <SelectItem label="Пуш-уведомление" value="ui" />
+                        </SelectContent>
+                    </SelectPortal>
+                </Select>
+                <Text size="md">Расположение</Text>
+                <Select>
+                    <SelectTrigger variant="outline" size="md">
+                        <SelectInput value={channel} placeholder="Расположение относительно баннера" onChangeText={setChannel} />
+                        <SelectIcon mr="$3">
+                            <Icon as={ChevronDownIcon} />
+                        </SelectIcon>
+                    </SelectTrigger>
+                    <SelectPortal>
+                        <SelectBackdrop />
+                        <SelectContent>
+                            <SelectDragIndicatorWrapper>
+                                <SelectDragIndicator />
+                            </SelectDragIndicatorWrapper>
+                            <SelectItem label="МБ" value="ux" />
+                            <SelectItem label="Email" value="web" />
+                            <SelectItem label="ИБ" value="cross-platform" />
+                            <SelectItem label="Пуш-уведомление" value="ui" />
+                        </SelectContent>
+                    </SelectPortal>
+                </Select>
+                <Text size="md">Цвет фона</Text>
+                <Center>
+                    <HStack>
+                        <TouchableOpacity><ColorSquare colorHex={"#F00000"}/></TouchableOpacity>
+                        <TouchableOpacity><ColorSquare colorHex={"#F00000"}/></TouchableOpacity>
+                        <TouchableOpacity><ColorSquare colorHex={"#F00000"}/></TouchableOpacity>
+                    </HStack>
+                </Center>
+                <ColorBox colorHex={"#F00000"} colorName={"test"} isShowText={true}/>
+
+
+
 
                 <Text size="xl" bold="true">Данные о клиенте</Text>
                 <Button onPress={"getImage"} size="lg">
@@ -121,7 +155,7 @@ const ImageForm = ({ }) => {
                     isDisabled={false}
                 >
                     <AccordionItem value="a" backgroundColor={EXTRA_COLOR}>
-                        <AccordionHeader  m="$0">
+                        <AccordionHeader m="$0">
                             <AccordionTrigger m="0$">
                                 {({ isExpanded }) => {
                                     return (
@@ -139,7 +173,7 @@ const ImageForm = ({ }) => {
                                 }}
                             </AccordionTrigger>
                         </AccordionHeader>
-                        <AccordionContent  pt="2$" mt="0$">
+                        <AccordionContent pt="2$" mt="0$">
                             <VStack space="md" m="0$">
                                 <Textarea m="0$">
                                     <TextareaInput value={positivePrompt} onChangeText={setPositivePrompt} placeholder="Промт" />

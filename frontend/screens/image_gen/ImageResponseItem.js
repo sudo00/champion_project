@@ -10,6 +10,9 @@ import { useRef, useState } from "react";
 const ImageResponseItem = ({ generationDate, promt, imageUrl }) => {
     const [showModal, setShowModal] = useState(false)
     const ref = useRef(null)
+    const handlePressEvent = (event) => {
+        console.log(event)
+    }
     return (
         <View>
             <HStack>
@@ -70,12 +73,14 @@ const ImageResponseItem = ({ generationDate, promt, imageUrl }) => {
                     </ModalHeader>
                     <ModalBody>
                         <Center w="100%" h="100%">
+                            <TouchableOpacity onPress={(event) => handlePressEvent(event)}>
                             <Image
                                 style={styles.imagePreview}
                                 resizeMode="contain"
-                                backgroundColor={EXTRA_COLOR}
+                                backgroundColor={"#F00000"}
                                 source={"https://www.iephb.ru/wp-content/uploads/2021/01/img-placeholder.png"}
                             />
+                            </TouchableOpacity>
                         </Center>
                     </ModalBody>
                     {/* <ModalFooter></ModalFooter> */}

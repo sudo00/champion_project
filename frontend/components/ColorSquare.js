@@ -10,8 +10,8 @@ const ColorSquare = ({colorHex}) => {
 
 const styles = StyleSheet.create({
   box: {
-    // width: 30,
-    // height: 30,
+    width: "3em",
+    height: "3em",
     marginRight: 10,
     borderColor: '#dddddd',
     borderWidth: 1,

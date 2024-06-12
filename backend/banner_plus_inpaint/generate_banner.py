@@ -26,4 +26,4 @@ def generate_banner(
     transparent_bg.save(output_path)
 
 
-generate_banner(input_path="photo_2024-06-11_12-17-45.jpg", output_path="res_banner.png")
+# generate_banner(input_path="photo_2024-06-11_12-17-45.jpg", output_path="res_banner.png")

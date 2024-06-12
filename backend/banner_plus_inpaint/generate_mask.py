@@ -13,9 +13,9 @@ def generate_mask(
     draw.rectangle((top_left, bottom_right), fill="white")
     mask.save(output_path)
 
-generate_mask(
-    top_left=(50, 50),
-    bottom_right=(150, 150),
-    input_path="./photo_2024-06-11_12-17-48.jpg",
-    output_path="./mask.png"
-)
+#generate_mask(
+    #top_left=(50, 50),
+    #bottom_right=(150, 150),
+    #input_path="./photo_2024-06-11_12-17-48.jpg",
+    #output_path="./mask.png"
+#)
