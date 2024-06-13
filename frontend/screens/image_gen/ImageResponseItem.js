@@ -35,7 +35,7 @@ const ImageResponseItem = ({ generationDate, promt, imageUrl }) => {
     //     console.log("Box size - " + boxSize.width + ":" + boxSize.height)
     //     console.log("IS select first - " + isSelectFirst)
     // }, [point1, point2])
-    const [points, setPoints] = useState([{ x: 100, y: 100 }, { x: 150, y: 150 }])
+    const [points, setPoints] = useState([])
     const handlePressEvent = (event) => {
         console.log(event)
         setPoints([
