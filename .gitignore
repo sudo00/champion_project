@@ -1,2 +1,6 @@
 /pgdata
 /data
+/backend/generation_scripts/sd_model
+/backend/generation_scripts/images
+/backend/generation_scripts/.env
+/backend/generation_scripts/__pycache__

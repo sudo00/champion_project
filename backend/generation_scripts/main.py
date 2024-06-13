@@ -3,7 +3,7 @@ from inference_inpaint import inpaint
 import json
 import os
 
-CFG_PATH = os.path.abspath("src/config.json")
+CFG_PATH = os.path.abspath("config.json")
 
 def main(mode):
     mode_map = {
@@ -13,6 +13,7 @@ def main(mode):
     mode_map[mode](CFG_PATH)
 
 if __name__ == "__main__":
+    
     with open(CFG_PATH) as f:
         config = json.load(f)
     mode = config['user_parameters']['user_mode'] #inference or inpaint

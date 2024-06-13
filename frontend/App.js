@@ -10,6 +10,12 @@ import { APP_HEADER_HEIGHT } from './screens/ScreenConst';
 import AuthScreen from './screens/AuthScreen';
 import RegistrationScreen from './screens/RegistrationScreen';
 
+
+// TODO
+// Карусель изображений в истории (когда было сгенерировано несколько изображений)
+// Загрузка изображений и данных о них
+// Варианты цветов фона, варианты баннеров
+// Свитч для генерации баннера, генерация баннера для выбранного изображения
 const SERVICE_NAME = `Сервис генерации \n маркетинговых изображений`
 const headerStyle = {
   height: APP_HEADER_HEIGHT,
