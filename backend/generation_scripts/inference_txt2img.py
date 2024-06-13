@@ -30,26 +30,14 @@ def txt2img(config) -> Image:
     strength = config['strength']
     lora_scale = config['lora_scale']
     num_inference_steps = config['num_inference_steps']
-    
-    pipe = StableDiffusionPipeline.from_pretrained(sd_path, torch_dtype=torch.float16)
+    pipe = StableDiffusionPipeline.from_pretrained(sd_path,  custom_pipeline="lpw_stable_diffusion",torch_dtype=torch.float16)
     pipe.load_lora_weights(pretrained_model_name_or_path_or_dict=lora_dir, weight_name=lora_path, adapter_name="gpb")
-    # pipe.unet = torch.compile(pipe.unet, mode="reduce-overhead", fullgraph=True)
     pipe.to(device)
 
     positive_prompt = f"{p_start} {p_user}  in gpb style, {p_end} This image is ideal for {offer} promotion"
     negative_prompt = f"{n_user} {n_end}"
 
-    # image = pipe(prompt=positive_prompt, negative_prompt=negative_prompt,\
-    #             height = height, width = width,  num_inference_steps=num_inference_steps, num_images_per_prompt = num_images_per_prompt, 
-    #             cross_attention_kwargs={"scale": lora_scale},\
-    #             generator=torch.Generator("cuda").manual_seed(31)
-    #             ).images[0]
-
-    compel = Compel(tokenizer=pipe.tokenizer, text_encoder=pipe.text_encoder)
-    con_embeds = compel([positive_prompt])
-    neg_embeds = compel([negative_prompt])
-    
-    image = pipe(prompt_embeds = con_embeds, negative_prompt_embeds = neg_embeds, \
+    image = pipe.text2img(prompt=positive_prompt, negative_prompt=negative_prompt,\
                 height = height, width = width,  num_inference_steps=num_inference_steps, num_images_per_prompt = num_images_per_prompt, 
                 cross_attention_kwargs={"scale": lora_scale},\
                 generator=torch.Generator("cuda").manual_seed(31)
