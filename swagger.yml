@@ -76,28 +76,100 @@ paths:
                     description: The JWT token
         '401':
           description: Invalid credentials
-  /protected:
-    get:
+  /generate:
+    post:
       tags:
-        - "Auth"
-      summary: Protected route
+        - "Image"
+      summary: Generate image/banner/inpaint
       security:
         - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - image
+                    - banner
+                    - inpaint
+                options:
+                  type: object
+                  oneOf:
+                    - $ref: '#/components/schemas/Image'
+                    - $ref: '#/components/schemas/Banner'
+                    - $ref: '#/components/schemas/Inpaint'
       responses:
         '200':
-          description: Authorized
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                  user_id:
-                    type: integer
+          description: Start generate
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
+  schemas:
+    Image:
+      type: object
+      properties:
+        width:
+          type: string
+          description: Width of image
+          example: 256
+        height:
+          type: string
+          description: Height of image
+          example: 256
+        count:
+          type: string
+          description: Count of images to generate
+          example: 1
+        product_type:
+          type: string
+          description: Type of product to generate
+          example: credit_card
+      required:
+        - width
+        - height
+        - count
+        - product_type
+    Banner:
+      type: object
+      properties:
+        image_id:
+          type: integer
+          description: Id of image to generate banner
+          example: 1
+        type:
+          type: string
+          description: Type of banner
+          example: credit_card
+        position:
+          type: string
+          description: Position of banner
+          example: center
+        color:
+          type: string
+          description: Color of banner
+          example: blue
+      required:
+        - image_id
+        - type
+        - position
+        - color
+    Inpaint:
+      type: object
+      properties:
+        image_id:
+          type: integer
+          description: Id of image to inpaint
+          example: 1
+        mask:
+          type: string
+          description: Mask to inpaint
+          example: 1, 15
+      required:
+        - image_id
+        - mask

@@ -6,6 +6,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from jwt import encode, decode  # Импорт функций из модулей 
 import datetime
 from functools import wraps
+import pika
+import json
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
@@ -13,6 +15,14 @@ app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DATABASE_URL')
 app.config['SECRET_KEY'] = 'your_secret_key'  # Замените на свой секретный ключ
 app.config['JWT_EXPIRATION_DELTA'] = datetime.timedelta(minutes=30)  # Время жизни токена
 db = SQLAlchemy(app)
+
+credentials = pika.PlainCredentials('user', 'password')
+parameters = pika.ConnectionParameters('rabbitmq', 5672, '/', credentials)
+connection = pika.BlockingConnection(parameters)
+channel = connection.channel()
+channel.queue_declare(queue='generate_image')
+channel.queue_declare(queue='generate_banner')
+channel.queue_declare(queue='generate_inpaint')
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -67,10 +77,33 @@ def login():
     token = encode({'id': user.id, 'exp': datetime.datetime.utcnow() + app.config['JWT_EXPIRATION_DELTA']}, app.config['SECRET_KEY'], algorithm='HS256')
     return jsonify({'token': token}), 200
 
-@app.route('/protected')
+@app.route('/generate', methods=['POST'])
 @token_required
-def protected(current_user):
-    return jsonify({'message': 'You are authorized!', 'user_id': current_user.id})
+def generate(current_user):
+    postData = request.get_json()
+    if not postData or not 'type' in postData or not 'options' in postData:
+        return jsonify({'error': 'Missing image parameters'}), 400
+    
+    typeOfGenerate = postData['type']
+    optionsOfGenerate = postData['options']
+    valid = True
+    if 'image' == typeOfGenerate:
+        if not optionsOfGenerate or not 'width' in optionsOfGenerate or not 'height' in optionsOfGenerate or not 'count' in optionsOfGenerate or not 'product_type' in optionsOfGenerate:
+            valid = False
+    elif 'banner' == typeOfGenerate:
+        if not optionsOfGenerate or not 'type' in optionsOfGenerate or not 'position' in optionsOfGenerate or not 'color' in optionsOfGenerate or not 'image_id' in optionsOfGenerate:
+            valid = False
+    elif 'inpaint' == typeOfGenerate:
+        if not 'image_id' in optionsOfGenerate or not 'mask' in optionsOfGenerate:
+            valid = False
+            
+    if False == valid:
+        return jsonify({'error': 'Missing banner parameters'}), 400
+
+    optionsOfGenerate['user_id'] = current_user.id
+    channel.basic_publish(exchange='', routing_key="generate_" + typeOfGenerate, body=json.dumps(optionsOfGenerate))
+    
+    return jsonify({}), 200
 
 if __name__ == '__main__':
     app.run(debug=True)

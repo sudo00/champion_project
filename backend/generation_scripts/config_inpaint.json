@@ -8,7 +8,7 @@
     "strength": 1.0,
 
     "user_parameters":{
-        "user_mode": "inference", 
+        "user_mode": "inpaint", 
         "height": 512,
         "width": 512,
         "positive_prompt": "of a blue building filled with coins. The building should have simple geometric shapes with minimal windows and a single door. The coins should be basic and metallic, partially visible at the top of the building ",
@@ -24,7 +24,7 @@
     "inpaint": {
         "stable_diffusion_path": "runwayml/stable-diffusion-inpainting",
         "img_path": "",
-        "mask_path":"",
+        "mask_path": "",
         "p_start": "Create a 3D illustration of",
         "p_end": "with minimal details, smooth surfaces, and a cartoon-like appearance.  Ensure the design is sleek and modern. Ensure the style is low-detail and similar to a cartoon or simplified 3D model in gbp style.",
         "n_end": "Avoid realistic textures, detailed reflections, and complex components. Do not add intricate details or a detailed background. ((((ugly)))), (((duplicate))), ((morbid)), ((mutilated)), [out of frame],blurry, (((bad proportions))), (((disfigured))), out of frame, ugly"

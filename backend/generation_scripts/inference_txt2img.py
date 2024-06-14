@@ -27,26 +27,19 @@ def txt2img(config) -> Image:
     strength = config['strength']
     lora_scale = config['lora_scale']
     num_inference_steps = config['num_inference_steps']
-    
-    
+    pipe = StableDiffusionPipeline.from_pretrained(sd_path, torch_dtype=torch.float32)
 
-
-
-
-    pipe = StableDiffusionPipeline.from_pretrained(sd_path, torch_dtype=torch.float16)
-    
-
-    # pipe = DiffusionPipeline.from_pretrained(sd_path, use_safetensors=True)
     pipe.load_lora_weights(pretrained_model_name_or_path_or_dict=lora_dir, weight_name=lora_path, adapter_name="gpb")
     pipe.to(device)
 
+    # тип продукта
     positive_prompt = f"{p_start} {p_user} {p_end}"
     negative_prompt = f"{n_user} {n_end}"
 
     image = pipe(
         positive_prompt, negative_prompt = negative_prompt,\
         height = height, width = width,  num_inference_steps=num_inference_steps, num_images_per_prompt = num_images_per_prompt, 
-        cross_attention_kwargs={"scale": lora_scale}).images[0]
+        cross_attention_kwargs={"scale": lora_scale}).images[0] # тут массив картинок, нужно сохранять их
 
     return image 
 

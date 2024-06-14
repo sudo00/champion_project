@@ -1,17 +1,17 @@
 version: "3.8"
 
 services:
-  frontend:
-    container_name: frontend
-    build:
-      context: ./
-      dockerfile: ./build_env/frontend/${DOCKERFILE}
-    restart: always
-    ports:
-      - ${FRONTEND_PORTS}
-    depends_on:
-      - backend
-      - s3
+  # frontend:
+  #   container_name: frontend
+  #   build:
+  #     context: ./
+  #     dockerfile: ./build_env/frontend/${DOCKERFILE}
+  #   restart: always
+  #   ports:
+  #     - ${FRONTEND_PORTS}
+  #   depends_on:
+  #     - backend
+  #     - s3
 
   backend:
     container_name: backend
@@ -53,6 +53,22 @@ services:
     volumes:
       - ./pgdata:/var/lib/postgresql/data
 
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3-management
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    volumes:
+      - 'rabbitmq_data:/var/lib/rabbitmq'
+    environment:
+      RABBITMQ_DEFAULT_USER: 'user'
+      RABBITMQ_DEFAULT_PASS: 'password'
+      RABBITMQ_DEFAULT_VHOST: "/"
+      RABBITMQ_DEFAULT_EXCHANGE_TYPE: "topic"
+
 volumes:
   data:
   pgdata:
+  rabbitmq_data:

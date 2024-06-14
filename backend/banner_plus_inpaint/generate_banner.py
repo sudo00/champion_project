@@ -4,11 +4,12 @@ from PIL import ImageDraw
 from remove_background import remove_background
 
 def generate_banner(
-        input_path: str,
-        output_path: str,
-        banner_type: str = "",
-        color: str = "",
+        input_path: str  = 'photo_2024-06-11_12-07-02.jpg',
+        output_path: str  = 'images/image1.png',
+        banner_type: str = "", #тип баннера, расположение изображения
+        color: str = "", #цвет фона
 ):
+    
     buffer_path = "./buffer.png"
     remove_background(input_path, buffer_path)
     png_image = Image.open(buffer_path)
@@ -26,4 +27,4 @@ def generate_banner(
     transparent_bg.save(output_path)
 
 
-# generate_banner(input_path="photo_2024-06-11_12-17-45.jpg", output_path="res_banner.png")
+generate_banner()
