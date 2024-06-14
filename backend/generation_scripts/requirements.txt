@@ -3,3 +3,4 @@ accelerate
 peft 
 diffusers
 pillow
+compel

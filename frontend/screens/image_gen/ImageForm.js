@@ -1,6 +1,6 @@
 import { StyleSheet, TouchableOpacity, View } from "react-native"
 import { useEffect, useState } from "react"
-import { HStack, VStack, Text, Icon, ScrollView, Textarea, TextareaInput, Center } from '@gluestack-ui/themed';
+import { HStack, VStack, Text, Icon, ScrollView, Textarea, TextareaInput, Center, Switch } from '@gluestack-ui/themed';
 import { Input, InputField } from '@gluestack-ui/themed';
 import { Divider } from "@gluestack-ui/themed"
 import {
@@ -33,21 +33,72 @@ import {
     ButtonSpinner,
     ButtonGroup,
 } from "@gluestack-ui/themed"
-import { Badge, BadgeText } from "@gluestack-ui/themed"
 import { EXTRA_COLOR } from "../../ColorConst";
 import ColorBox from "../../components/ColorBox";
 import ColorSquare from "../../components/ColorSquare";
+import { bannerTypes } from "../../model/banner/BannerType";
+import { bannerColors } from "../../model/banner/BannerColors";
 
 const ImageForm = ({ }) => {
     const [imageWidth, setImageWidth] = useState(512)
     const [imageHeight, setImageHeight] = useState(512)
     const [imagesCount, setImagesCount] = useState(1)
     const [productType, setProductType] = useState("")
-    const [channel, setChannel] = useState("")
+
+    const [isAddBanner, setIsAddBanner] = useState(false)
+    const [bannerType, setBannerType] = useState("")
+    const [contentPosition, setContentPosition] = useState("")
+    const [backgroundColor, setBackgroundColor] = useState("")
 
     const [positivePrompt, setPositivePrompt] = useState('')
     const [negativePrompt, setNegativePrompt] = useState('')
-    const extraOptions = ["ОПЦИЯ_1", "ОПЦИЯ_2", "ОПЦИЯ_3"]
+
+    const onGenerateImage = () => {
+
+    }
+
+    const onClearInput = () => {
+        setImageWidth(512)
+        setImageHeight(512)
+        setImagesCount(1)
+        setProductType("")
+        setIsAddBanner(false)
+        setBannerType("")
+        setContentPosition("")
+        setBackgroundColor("")
+        setPositivePrompt("")
+        setNegativePrompt("")
+    }
+
+    const renderBannerTypeOptions = () => {
+        return bannerTypes.map(
+            (type) => {
+                return (
+                    <SelectItem label={type.displayName} value={type.name} />
+                )
+            }
+        )
+    }
+    const renderContentPositionOptions = (bannerTypeStr) => {
+        if (bannerTypeStr != "") {
+            selectedBannerType = bannerTypes.find((item) => item.name == bannerTypeStr)
+            return selectedBannerType.availableSizes.map(
+                (size) => {
+                    return (
+                        <SelectItem label={size.displayName} value={size.name} />
+                    )
+                }
+            )
+        }
+    }
+    const renderBannerColors = () => {
+        return bannerColors.map(
+            (color) => {
+                return <TouchableOpacity onPress={setBackgroundColor.bind(null, color)}><ColorSquare colorHex={color} /></TouchableOpacity>
+            }
+        )
+    }
+
     return (
         <ScrollView>
             <VStack p="$3" space="md">
@@ -65,9 +116,12 @@ const ImageForm = ({ }) => {
                     <InputField value={imagesCount} onChangeText={setImagesCount} valueplaceholder="Количество изображений" />
                 </Input>
                 <Text size="md">Тип рекламируемого продукта</Text>
-                <Select>
+                <Select
+                    selectedValue={productType}
+                    onValueChange={setProductType}
+                >
                     <SelectTrigger variant="outline" size="md">
-                        <SelectInput value={productType} placeholder="Тип продукта" onChangeText={setProductType} />
+                        <SelectInput placeholder="Тип продукта" />
                         <SelectIcon mr="$3">
                             <Icon as={ChevronDownIcon} />
                         </SelectIcon>
@@ -78,74 +132,77 @@ const ImageForm = ({ }) => {
                             <SelectDragIndicatorWrapper>
                                 <SelectDragIndicator />
                             </SelectDragIndicatorWrapper>
-                            <SelectItem label="Потребительский кредит" value="ux" />
-                            <SelectItem label="Кредитная карта" value="web" />
-                            <SelectItem label="Кредит под залог недвижимости" value="cross-platform" />
-                            <SelectItem label="Премиум" value="ui" />
+                            <SelectItem label="Потребительский кредит" value="ПК" />
+                            <SelectItem label="Кредитная карта" value="КК" />
+                            <SelectItem label="Кредит под залог недвижимости" value="КПЗН" />
+                            <SelectItem label="Премиум" value="Премиум" />
                         </SelectContent>
                     </SelectPortal>
                 </Select>
 
-                <Text size="xl" bold="true">Фон</Text>
-                <Text size="md">Тип баннера</Text>
-                <Select>
-                    <SelectTrigger variant="outline" size="md">
-                        <SelectInput value={channel} placeholder="Соотношение сторон баннера на выходе" onChangeText={setChannel} />
-                        <SelectIcon mr="$3">
-                            <Icon as={ChevronDownIcon} />
-                        </SelectIcon>
-                    </SelectTrigger>
-                    <SelectPortal>
-                        <SelectBackdrop />
-                        <SelectContent>
-                            <SelectDragIndicatorWrapper>
-                                <SelectDragIndicator />
-                            </SelectDragIndicatorWrapper>
-                            <SelectItem label="МБ" value="ux" />
-                            <SelectItem label="Email" value="web" />
-                            <SelectItem label="ИБ" value="cross-platform" />
-                            <SelectItem label="Пуш-уведомление" value="ui" />
-                        </SelectContent>
-                    </SelectPortal>
-                </Select>
-                <Text size="md">Расположение</Text>
-                <Select>
-                    <SelectTrigger variant="outline" size="md">
-                        <SelectInput value={channel} placeholder="Расположение относительно баннера" onChangeText={setChannel} />
-                        <SelectIcon mr="$3">
-                            <Icon as={ChevronDownIcon} />
-                        </SelectIcon>
-                    </SelectTrigger>
-                    <SelectPortal>
-                        <SelectBackdrop />
-                        <SelectContent>
-                            <SelectDragIndicatorWrapper>
-                                <SelectDragIndicator />
-                            </SelectDragIndicatorWrapper>
-                            <SelectItem label="МБ" value="ux" />
-                            <SelectItem label="Email" value="web" />
-                            <SelectItem label="ИБ" value="cross-platform" />
-                            <SelectItem label="Пуш-уведомление" value="ui" />
-                        </SelectContent>
-                    </SelectPortal>
-                </Select>
-                <Text size="md">Цвет фона</Text>
-                <Center>
-                    <HStack>
-                        <TouchableOpacity><ColorSquare colorHex={"#F00000"}/></TouchableOpacity>
-                        <TouchableOpacity><ColorSquare colorHex={"#F00000"}/></TouchableOpacity>
-                        <TouchableOpacity><ColorSquare colorHex={"#F00000"}/></TouchableOpacity>
-                    </HStack>
-                </Center>
-                <ColorBox colorHex={"#F00000"} colorName={"test"} isShowText={true}/>
+                <Text size="xl" bold="true">Баннер</Text>
+                <HStack space="md">
+                    <Text>Добавить на баннер</Text>
+                    <Switch value={isAddBanner} onValueChange={setIsAddBanner} />
+                </HStack>
+                {isAddBanner ? <VStack space="md">
+                    <Text size="md">Тип баннера</Text>
+                    <Select
+                        selectedValue={bannerType}
+                        onValueChange={setBannerType}
+                    >
+                        <SelectTrigger variant="outline" size="md">
+                            <SelectInput placeholder="Тип форм-фактора баннера" />
+                            <SelectIcon mr="$3">
+                                <Icon as={ChevronDownIcon} />
+                            </SelectIcon>
+                        </SelectTrigger>
+                        <SelectPortal>
+                            <SelectBackdrop />
+                            <SelectContent>
+                                <SelectDragIndicatorWrapper>
+                                    <SelectDragIndicator />
+                                </SelectDragIndicatorWrapper>
+                                {renderBannerTypeOptions()}
+                            </SelectContent>
+                        </SelectPortal>
+                    </Select>
+                    <Text size="md">Расположение изображения</Text>
+                    <Select
+                        selectedValue={contentPosition}
+                        onValueChange={setContentPosition}
+                    >
+                        <SelectTrigger variant="outline" size="md">
+                            <SelectInput placeholder="Расположение относительно баннера" />
+                            <SelectIcon mr="$3">
+                                <Icon as={ChevronDownIcon} />
+                            </SelectIcon>
+                        </SelectTrigger>
+                        <SelectPortal>
+                            <SelectBackdrop />
+                            <SelectContent>
+                                <SelectDragIndicatorWrapper>
+                                    <SelectDragIndicator />
+                                </SelectDragIndicatorWrapper>
+                                {renderContentPositionOptions(bannerType)}
+                            </SelectContent>
+                        </SelectPortal>
+                    </Select>
+                    <Text size="md">Цвет баннера</Text>
+                    <Center>
+                        <HStack>
+                            {renderBannerColors()}
+                        </HStack>
+                    </Center>
+                    <ColorBox colorHex={backgroundColor} colorName={"Выбран цвет "} isShowText={true} />
+                </VStack> : <View/>}
 
 
-
-
-                <Text size="xl" bold="true">Данные о клиенте</Text>
+                {/* <Text size="xl" bold="true">Данные о клиенте</Text>
                 <Button onPress={"getImage"} size="lg">
                     <ButtonText>Загрузить</ButtonText>
-                </Button>
+                </Button> */}
+
 
                 <Accordion
                     size="lg"
@@ -181,40 +238,31 @@ const ImageForm = ({ }) => {
                                 <Textarea>
                                     <TextareaInput value={negativePrompt} onChangeText={setNegativePrompt} placeholder="Негативный промт" />
                                 </Textarea>
-                                <Text size="md">Пресеты</Text>
+                                {/* <Text size="md">Пресеты</Text>
                                 <HStack space="3xl">
                                     <Badge size="md" variant="outline" borderRadius="$full" action="info">
                                         <BadgeText>Опция 1</BadgeText>
-                                        {/* <BadgeIcon as={GlobeIcon} ml="$2" /> */}
+                            
                                     </Badge>
                                     <Badge size="md" variant="outline" borderRadius="$full" action="info">
                                         <BadgeText>Опция 1</BadgeText>
-                                        {/* <BadgeIcon as={GlobeIcon} ml="$2" /> */}
                                     </Badge>
                                     <Badge size="md" variant="outline" borderRadius="$full" action="info">
                                         <BadgeText>Удалить фон таким образом, чтобы ......</BadgeText>
-                                        {/* <BadgeIcon as={GlobeIcon} ml="$2" /> */}
                                     </Badge>
-
-                                    {
-                                        // extraOptions.map(item => {
-                                        //     <Badge size="lg" variant="outline" borderRadius="$full" action="info">
-                                        //         <BadgeText>{item}</BadgeText>
-                                        //         {/* <BadgeIcon as={GlobeIcon} ml="$2" /> */}
-                                        //     </Badge>
-                                        // })
-                                    }
-                                </HStack>
+                                </HStack> */}
                             </VStack>
                         </AccordionContent>
                     </AccordionItem>
                 </Accordion>
+
                 <Divider my="$1" />
+
                 <HStack space="md">
-                    <Button onPress={"getImage"} size="lg">
+                    <Button onPress={onGenerateImage} size="lg">
                         <ButtonText>Сгенерировать</ButtonText>
                     </Button>
-                    <Button onPress={"getImage"} size="lg" action="negative">
+                    <Button onPress={onClearInput} size="lg" action="negative">
                         <ButtonText>Очистить ввод</ButtonText>
                     </Button>
                 </HStack>
