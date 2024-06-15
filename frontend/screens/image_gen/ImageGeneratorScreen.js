@@ -6,16 +6,35 @@ import { Col, Grid, Row } from "react-native-easy-grid";
 import ImageHistory from "./ImageHistory";
 import ImageForm from "./ImageForm";
 import Header from "../../components/Header";
+import { historyRequest } from "../../api/history";
 
 const ImageGeneratorScreen = ({ navigation }) => {
+    const [imageHistory, setImageHistory] = useState([])
+
+    const refreshHistory = () => {
+        historyRequest({
+            onSuccess: (data) => { setImageHistory(data) }
+        })
+    }
+    const clearHistory = () => {
+        clearHistoryRequest(
+            {}
+        )
+    }
+    useEffect(() => { refreshHistory() }, [])
     return (
         <Grid>
             <Row>
                 <Col size={1} style={{backgroundColor: "white"}}>
-                    <ImageForm/>
+                    <ImageForm
+                        onClearImageHistory={clearHistory}
+                        onRefreshImageHistory={refreshHistory}
+                    />
                 </Col>
                 <Col size={2}>
-                    <ImageHistory/>
+                    <ImageHistory
+                        imageHistory={imageHistory}
+                    />
                 </Col>
             </Row>
         </Grid>

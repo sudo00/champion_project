@@ -40,7 +40,10 @@ import { bannerTypes } from "../../model/banner/BannerType";
 import { bannerColors } from "../../model/banner/BannerColors";
 import { TASK_TYPE_IMAGE, generateRequest } from "../../api/generate";
 
-const ImageForm = ({ }) => {
+const ImageForm = ({
+    onClearImageHistory,
+    onRefreshImageHistory,
+}) => {
     const [imageWidth, setImageWidth] = useState(512)
     const [imageHeight, setImageHeight] = useState(512)
     const [imagesCount, setImagesCount] = useState(1)
@@ -59,6 +62,7 @@ const ImageForm = ({ }) => {
                 product_type: productType,
                 positive_prompt: positivePrompt,
                 negative_prompt: negativePrompt,
+                offer: "",
             }
         })
     }
@@ -175,13 +179,19 @@ const ImageForm = ({ }) => {
                 <Divider my="$1" />
 
                 <HStack space="md">
-                    <Button onPress={onGenerateImage} size="lg">
+                    <Button w="45%"onPress={onGenerateImage} size="lg">
                         <ButtonText>Сгенерировать</ButtonText>
                     </Button>
-                    <Button onPress={onClearInput} size="lg" action="negative">
+                    <Button w="45%" onPress={onClearInput} size="lg" action="negative">
                         <ButtonText>Очистить ввод</ButtonText>
                     </Button>
                 </HStack>
+                <Button w="100%" onPress={onRefreshImageHistory} size="lg">
+                    <ButtonText>Обновить</ButtonText>
+                </Button>
+                <Button w="100%" onPress={onClearImageHistory} size="lg">
+                    <ButtonText>Очистить историю</ButtonText>
+                </Button>
             </VStack>
         </ScrollView>
     )
