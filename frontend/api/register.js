@@ -1,15 +1,16 @@
 import axios from "axios"
+import { err } from "react-native-svg"
 
-const register = ({username, password}) => {
+export const register = ({username, password}) => {
     axios.post(
-        url = "",
+        url = "http://backend:4000/register",
         data = {
             username: username,
             password: password,
         }
     ).then((response) => {
-
-    }).catch((response) => {
-        
+        console.log(response)
+    }).catch((error) => {
+        console.log(error)
     })
 }
