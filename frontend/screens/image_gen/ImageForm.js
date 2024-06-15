@@ -38,6 +38,7 @@ import ColorBox from "../../components/ColorBox";
 import ColorSquare from "../../components/ColorSquare";
 import { bannerTypes } from "../../model/banner/BannerType";
 import { bannerColors } from "../../model/banner/BannerColors";
+import { TASK_TYPE_IMAGE, generateRequest } from "../../api/generate";
 
 const ImageForm = ({ }) => {
     const [imageWidth, setImageWidth] = useState(512)
@@ -45,16 +46,21 @@ const ImageForm = ({ }) => {
     const [imagesCount, setImagesCount] = useState(1)
     const [productType, setProductType] = useState("")
 
-    const [isAddBanner, setIsAddBanner] = useState(false)
-    const [bannerType, setBannerType] = useState("")
-    const [contentPosition, setContentPosition] = useState("")
-    const [backgroundColor, setBackgroundColor] = useState("")
-
     const [positivePrompt, setPositivePrompt] = useState('')
     const [negativePrompt, setNegativePrompt] = useState('')
 
     const onGenerateImage = () => {
-
+        generateRequest({
+            taskType: TASK_TYPE_IMAGE,
+            taskData: {
+                count: imagesCount,
+                width: imageWidth,
+                height: imageHeight,
+                product_type: productType,
+                positive_prompt: positivePrompt,
+                negative_prompt: negativePrompt,
+            }
+        })
     }
 
     const onClearInput = () => {
@@ -62,41 +68,8 @@ const ImageForm = ({ }) => {
         setImageHeight(512)
         setImagesCount(1)
         setProductType("")
-        setIsAddBanner(false)
-        setBannerType("")
-        setContentPosition("")
-        setBackgroundColor("")
         setPositivePrompt("")
         setNegativePrompt("")
-    }
-
-    const renderBannerTypeOptions = () => {
-        return bannerTypes.map(
-            (type) => {
-                return (
-                    <SelectItem label={type.displayName} value={type.name} />
-                )
-            }
-        )
-    }
-    const renderContentPositionOptions = (bannerTypeStr) => {
-        if (bannerTypeStr != "") {
-            selectedBannerType = bannerTypes.find((item) => item.name == bannerTypeStr)
-            return selectedBannerType.availableSizes.map(
-                (size) => {
-                    return (
-                        <SelectItem label={size.displayName} value={size.name} />
-                    )
-                }
-            )
-        }
-    }
-    const renderBannerColors = () => {
-        return bannerColors.map(
-            (color) => {
-                return <TouchableOpacity onPress={setBackgroundColor.bind(null, color)}><ColorSquare colorHex={color} /></TouchableOpacity>
-            }
-        )
     }
 
     return (
@@ -140,64 +113,7 @@ const ImageForm = ({ }) => {
                     </SelectPortal>
                 </Select>
 
-                <Text size="xl" bold="true">Баннер</Text>
-                <HStack space="md">
-                    <Text>Добавить на баннер</Text>
-                    <Switch value={isAddBanner} onValueChange={setIsAddBanner} />
-                </HStack>
-                {isAddBanner ? <VStack space="md">
-                    <Text size="md">Тип баннера</Text>
-                    <Select
-                        selectedValue={bannerType}
-                        onValueChange={setBannerType}
-                    >
-                        <SelectTrigger variant="outline" size="md">
-                            <SelectInput placeholder="Тип форм-фактора баннера" />
-                            <SelectIcon mr="$3">
-                                <Icon as={ChevronDownIcon} />
-                            </SelectIcon>
-                        </SelectTrigger>
-                        <SelectPortal>
-                            <SelectBackdrop />
-                            <SelectContent>
-                                <SelectDragIndicatorWrapper>
-                                    <SelectDragIndicator />
-                                </SelectDragIndicatorWrapper>
-                                {renderBannerTypeOptions()}
-                            </SelectContent>
-                        </SelectPortal>
-                    </Select>
-                    <Text size="md">Расположение изображения</Text>
-                    <Select
-                        selectedValue={contentPosition}
-                        onValueChange={setContentPosition}
-                    >
-                        <SelectTrigger variant="outline" size="md">
-                            <SelectInput placeholder="Расположение относительно баннера" />
-                            <SelectIcon mr="$3">
-                                <Icon as={ChevronDownIcon} />
-                            </SelectIcon>
-                        </SelectTrigger>
-                        <SelectPortal>
-                            <SelectBackdrop />
-                            <SelectContent>
-                                <SelectDragIndicatorWrapper>
-                                    <SelectDragIndicator />
-                                </SelectDragIndicatorWrapper>
-                                {renderContentPositionOptions(bannerType)}
-                            </SelectContent>
-                        </SelectPortal>
-                    </Select>
-                    <Text size="md">Цвет баннера</Text>
-                    <Center>
-                        <HStack>
-                            {renderBannerColors()}
-                        </HStack>
-                    </Center>
-                    <ColorBox colorHex={backgroundColor} colorName={"Выбран цвет "} isShowText={true} />
-                </VStack> : <View/>}
-
-
+            
                 {/* <Text size="xl" bold="true">Данные о клиенте</Text>
                 <Button onPress={"getImage"} size="lg">
                     <ButtonText>Загрузить</ButtonText>

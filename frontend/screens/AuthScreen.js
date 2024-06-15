@@ -1,13 +1,22 @@
 import { Button, ButtonText, Card, Center, Heading, Input, InputField, Text, VStack } from "@gluestack-ui/themed"
 import { useState } from "react"
+import { loginRequest } from "../api/login"
 
-const AuthScreen = ({navigation}) => {
-    const onRegistration = () =>  {
+const AuthScreen = ({ navigation }) => {
+    const onRegistration = () => {
         navigation.replace("Registration")
     }
     const onLogin = () => {
-        
-        navigation.replace("ImageGenerator")
+        loginRequest({ username: login, password: password })
+            .then((response) => {
+                console.log(response)
+                if (response.status == 200) {
+                    navigation.replace("ImageGenerator")
+                }
+            }).catch((error) => {
+                console.log(error)
+            })
+
     }
     const [login, setLogin] = useState("")
     const [password, setPassword] = useState("")
@@ -18,11 +27,11 @@ const AuthScreen = ({navigation}) => {
                     <Heading>Авторизация</Heading>
                     <Text>Логин</Text>
                     <Input>
-                        <InputField value={login} placeholder="Логин" onChangeText={setLogin}/>
+                        <InputField value={login} placeholder="Логин" onChangeText={setLogin} />
                     </Input>
                     <Text>Пароль</Text>
                     <Input>
-                        <InputField value={password} type="password" placeholder="Пароль" onChangeText={setPassword}/>
+                        <InputField value={password} type="password" placeholder="Пароль" onChangeText={setPassword} />
                     </Input>
                     <Button onPress={onLogin}>
                         <ButtonText>Войти</ButtonText>

@@ -1,15 +1,12 @@
 import axios from "axios"
+import { generateImageApi } from "./baseApi"
 
-const login = ({username, password}) => {
-    axios.post(
-        url = "",
+export const loginRequest = ({username, password}) => {
+    return generateImageApi.post(
+        url = "/login",
         data = {
             username: username,
             password: password,
         }
-    ).then((response) => {
-        console.log(response)
-    }).catch((error) => {
-        console.log(error)
-    })
+    )
 }
