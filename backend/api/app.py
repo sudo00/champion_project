@@ -39,13 +39,15 @@ class History(db.Model):
     user_id = db.Column(db.Integer, nullable=False)
     status = db.Column(db.String(255), nullable=False)
     object_name = db.Column(db.String(255), nullable=True)
+    options = db.Column(db.JSON, nullable=False)
 
     @property
     def serialize(self):
        return {
            'id'         : self.id,
            'status'  : self.status,
-           'object_name'  : self.object_name
+           'object_name'  : self.object_name,
+           'options'  : self.options,
        }
 
     def __repr__(self):
@@ -123,17 +125,17 @@ def generate(current_user):
     historyIds = []
     if 'image' == typeOfGenerate:
         for i in range(int(optionsOfGenerate["count"])):
-            history = History(user_id=current_user.id, status=STATUS_CREATED)
+            history = History(user_id=current_user.id, status=STATUS_CREATED, options=optionsOfGenerate)
             db.session.add(history)
             db.session.commit()
             historyIds.append({"id": history.id})
     if 'banner' == typeOfGenerate:
-        history = History(user_id=current_user.id, status=STATUS_CREATED)
+        history = History(user_id=current_user.id, status=STATUS_CREATED, options=optionsOfGenerate)
         db.session.add(history)
         db.session.commit()
         historyIds.append({"id": history.id})
     if 'inpaint' == typeOfGenerate:
-        history = History(user_id=current_user.id, status=STATUS_CREATED)
+        history = History(user_id=current_user.id, status=STATUS_CREATED, options=optionsOfGenerate)
         db.session.add(history)
         db.session.commit()
         historyIds.append({"id": history.id})
@@ -163,7 +165,7 @@ def history(current_user):
         history = History.query.filter(History.user_id == current_user.id, History.id.in_(id_get)).all()
     else:
         history = History.query.filter(History.user_id == current_user.id).all()
-    return jsonify(json_list=[i.serialize for i in history]), 200
+    return jsonify([i.serialize for i in history]), 200
 
 import io
 @app.route('/image/<object_name>', methods=['GET'])

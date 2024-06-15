@@ -168,7 +168,7 @@ def generate_banner(
 
     return result
 
-def gen(body):
+def gen_banner(body):
     image_id = body['options']['image_id']
     select = f"SELECT object_name FROM history WHERE id={image_id}"
     cursor.execute(select)

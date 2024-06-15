@@ -3,20 +3,18 @@ import os
 import pika
 from inference_txt2img import inference 
 from inference_inpaint import inpaint
-from generate_banner import gen
+from generate_banner import gen_banner
+from generate_mask import generate_mask
 import json
+import psycopg2
+import uuid
+import io
+from minio import Minio
+from os import environ
+from PIL import Image, ImageDraw
 
-
-mode_map = {
-    'image': inference,
-    'inpaint': inpaint,
-    'banner': inference
-}
-config_map = {
-    'image': "config.json",
-    'inpaint': "config_inpaint.json",
-    'banner': "config.json"
-}
+conn = psycopg2.connect(dsn=environ.get('DATABASE_URL'))
+cursor = conn.cursor()
 
 def main():
     credentials = pika.PlainCredentials('user', 'password')
@@ -31,14 +29,27 @@ def main():
         typeGen = body["type"]
         print(body, file=sys.stderr)
         
-        mode = mode_map[typeGen]
-        config_path = os.path.abspath(config_map[typeGen])
-        
         if 'image' == typeGen:
-            mode(config_path, body)
+            inference('config.json', body)
         
         if 'banner' == typeGen:
-            gen(body)
+            gen_banner(body)
+        
+        if 'inpaint' == typeGen:
+            image_id = body['options']['image_id']
+            select = f"SELECT object_name FROM history WHERE id={image_id}"
+            cursor.execute(select)
+            object_name = cursor.fetchone()[0]
+            client = Minio(environ.get('S3_ENDPOINT'), environ.get('S3_ACCESS_KEY'), environ.get('S3_SECRET_KEY'), secure=False)
+            bucket = environ.get('S3_BUCKET_NAME')
+            if False == client.bucket_exists(bucket):
+                client.make_bucket(bucket)
+            response = client.get_object(bucket_name=bucket, object_name=object_name)
+
+            # Создаем BytesIO объект для хранения изображения
+            original_image = Image.open(io.BytesIO(response.data)) 
+            mask = generate_mask(original_image, body)
+            inpaint('config_inpaint.json', body, original_image, mask)
         
         
 
