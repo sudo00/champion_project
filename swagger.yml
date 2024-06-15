@@ -104,6 +104,41 @@ paths:
       responses:
         '200':
           description: Start generate
+  /history:
+    get:
+      tags:
+        - "Image"
+      summary: Get history of images
+      parameters:
+      - name: id
+        in: query
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int64
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Image list
+  /image/{object_name}:
+    get:
+      tags:
+        - "Image"
+      summary: Get image from history
+      parameters:
+        - in: path
+          name: object_name
+          schema:
+            type: string
+          required: true
+          description: object name
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Image list
 components:
   securitySchemes:
     bearerAuth:
@@ -130,6 +165,15 @@ components:
           type: string
           description: Type of product to generate
           example: credit_card
+        positive_prompt:
+          type: string
+          description: Positive promt
+        negative_prompt:
+          type: string
+          description: Negative promt
+        offer:
+          type: string
+          description: Offer
       required:
         - width
         - height
@@ -170,6 +214,12 @@ components:
           type: string
           description: Mask to inpaint
           example: 1, 15
+        positive_prompt:
+          type: string
+          description: Positive promt
+        negative_prompt:
+          type: string
+          description: Negative promt
       required:
         - image_id
         - mask

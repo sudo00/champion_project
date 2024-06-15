@@ -1,41 +1,62 @@
 version: "3.8"
 
 services:
-  # frontend:
-  #   container_name: frontend
-  #   build:
-  #     context: ./
-  #     dockerfile: ./build_env/frontend/${DOCKERFILE}
-  #   restart: always
-  #   ports:
-  #     - ${FRONTEND_PORTS}
-  #   depends_on:
-  #     - backend
-  #     - s3
+  frontend:
+    container_name: frontend
+    build:
+      context: ./
+      dockerfile: ./build_env/frontend/${DOCKERFILE}
+    restart: always
+    ports:
+      - ${FRONTEND_PORTS}
+    depends_on:
+      - backend
 
   backend:
     container_name: backend
     build:
       context: ./
-      dockerfile: ./build_env/backend/${DOCKERFILE}
+      dockerfile: ./build_env/backend/api/${DOCKERFILE}
     restart: always
     ports:
       - 4000:4000
     environment:
-      - S3_BUCKET_NAME=my-bucket
-      - S3_ENDPOINT=http://s3:9000
+      - S3_BUCKET_NAME=images
+      - S3_ENDPOINT=s3:9006
       - S3_ACCESS_KEY=minioadmin
       - S3_SECRET_KEY=minioadmin
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
     depends_on:
       - db
       - s3
+      - rabbitmq
+      - generate
+
+  generate:
+    container_name: generate
+    build:
+      context: ./
+      dockerfile: ./build_env/backend/generate/${DOCKERFILE}
+    restart: always
+    environment:
+      - S3_BUCKET_NAME=images
+      - S3_ENDPOINT=s3:9006
+      - S3_ACCESS_KEY=minioadmin
+      - S3_SECRET_KEY=minioadmin
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
+    depends_on:
+      - db
+      - s3
+      - rabbitmq
 
   s3:
     container_name: s3
     image: minio/minio
     restart: always
-    command: server /data --console-address ":9001"
+    command: server --console-address ":9007" --address ":9006" /data
+    ports:
+      - "9006:9006"
+      - "9007:9007"
     volumes:
       - ./data:/data
     environment:

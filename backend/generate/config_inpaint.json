@@ -1,0 +1,17 @@
+{    
+    "num_inference_steps": 150,
+    "lora_path": "model/Lora_30k_data5.safetensors",
+    "save_path": "images/",
+    "device": "cuda",
+    "lora_scale": 1,
+    "guidance_scale": 2.5,
+    "strength": 1.0,
+    "inpaint": {
+        "stable_diffusion_path": "runwayml/stable-diffusion-inpainting",
+        "img_path": "",
+        "mask_path":"",
+        "p_start": "Create a 3D illustration of",
+        "p_end": "with minimal details, smooth surfaces, and a cartoon-like appearance.  Ensure the design is sleek and modern. Ensure the style is low-detail and similar to a cartoon or simplified 3D model in gbp style.",
+        "n_end": "Avoid realistic textures, detailed reflections, and complex components. Do not add intricate details or a detailed background. ((((ugly)))), (((duplicate))), ((morbid)), ((mutilated)), [out of frame],blurry, (((bad proportions))), (((disfigured))), out of frame, ugly"
+    }
+}
