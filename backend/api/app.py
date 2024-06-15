@@ -17,12 +17,6 @@ app.config['SECRET_KEY'] = 'your_secret_key'  # Замените на свой �
 app.config['JWT_EXPIRATION_DELTA'] = datetime.timedelta(minutes=30)  # Время жизни токена
 db = SQLAlchemy(app)
 
-credentials = pika.PlainCredentials('user', 'password')
-parameters = pika.ConnectionParameters('rabbitmq', 5672, '/', credentials)
-connection = pika.BlockingConnection(parameters)
-channel = connection.channel()
-channel.queue_declare(queue='generate')
-
 client = Minio(environ.get('S3_ENDPOINT'), environ.get('S3_ACCESS_KEY'), environ.get('S3_SECRET_KEY'), secure=False)
 bucket = environ.get('S3_BUCKET_NAME')
 if False == client.bucket_exists(bucket):
@@ -149,7 +143,13 @@ def generate(current_user):
     body['type'] = typeOfGenerate
     body['user_id'] = current_user.id
     body['history_ids'] = historyIds
+    credentials = pika.PlainCredentials('user', 'password')
+    parameters = pika.ConnectionParameters('rabbitmq', 5672, '/', credentials)
+    connection = pika.BlockingConnection(parameters)
+    channel = connection.channel()
+    channel.queue_declare(queue='generate')
     channel.basic_publish(exchange='', routing_key="generate", body=json.dumps(body))
+    connection.close()
     
     return jsonify(historyIds), 200
 

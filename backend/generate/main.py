@@ -3,7 +3,9 @@ import os
 import pika
 from inference_txt2img import inference 
 from inference_inpaint import inpaint
+from generate_banner import gen
 import json
+
 
 mode_map = {
     'image': inference,
@@ -34,6 +36,9 @@ def main():
         
         if 'image' == typeGen:
             mode(config_path, body)
+        
+        if 'banner' == typeGen:
+            gen(body)
         
         
 

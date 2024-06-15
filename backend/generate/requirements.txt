@@ -7,3 +7,5 @@ compel
 pika
 psycopg2-binary
 minio
+Pillow
+rembg
