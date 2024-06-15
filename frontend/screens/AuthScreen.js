@@ -6,6 +6,7 @@ const AuthScreen = ({navigation}) => {
         navigation.replace("Registration")
     }
     const onLogin = () => {
+        
         navigation.replace("ImageGenerator")
     }
     const [login, setLogin] = useState("")
