@@ -4,3 +4,6 @@ peft
 diffusers
 pillow
 compel
+pika
+psycopg2-binary
+minio

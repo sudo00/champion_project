@@ -1,12 +1,12 @@
-FROM python:3.6-slim-buster
+FROM python:3.10-slim-buster
 
 WORKDIR /app
 
-COPY ./backend/requirements.txt ./
+COPY ./backend/api/requirements.txt ./
 
 RUN pip install -r requirements.txt
 
-COPY ./backend/. .
+COPY ./backend/api .
 
 EXPOSE 4000
 

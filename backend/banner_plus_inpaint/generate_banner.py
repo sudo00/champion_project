@@ -39,9 +39,10 @@ def generate_banner(
         input_path: str,
         output_path: str,
         banner_color: str,
-        banner_type: BannerType = BannerType.GHOST_BANNER_SMALL,
-        content_position: str = ContentPosition.GHOST_BANNER_END.value,
+        banner_type: BannerType = BannerType.GHOST_BANNER_SMALL, #тип баннера, расположение изображения
+        content_position: str = ContentPosition.GHOST_BANNER_END.value, #цвет фона
 ):
+    
     buffer_path = "./buffer.png"
     remove_background(input_path, buffer_path)
     png_image = Image.open(buffer_path)

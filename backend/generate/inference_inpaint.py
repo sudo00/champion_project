@@ -5,7 +5,7 @@ from PIL import Image
 import json
 import os
 
-def inpaint_inference(config) -> Image: 
+def inpaint_inference(config, options) -> Image: 
     sd_path = config['inpaint']["stable_diffusion_path"]
 
     lora_rel_path = config["lora_path"]
@@ -14,10 +14,10 @@ def inpaint_inference(config) -> Image:
 
     device = config["device"]
 
-    p_user = config['user_parameters']['positive_prompt']
-    n_user = config['user_parameters']['negative_prompt']
-    height = config['user_parameters']['height']
-    width = config['user_parameters']['width']
+    p_user = options['positive_prompt']
+    n_user = options['negative_prompt']
+    height = options['height']
+    width = options['width']
 
     p_start = config['inpaint']['p_start']
     p_end = config['inpaint']['p_end']
@@ -44,8 +44,7 @@ def inpaint_inference(config) -> Image:
     image = pipe(prompt=positive_prompt, negative_prompt=negative_prompt, 
                 image=init_image, mask_image=mask_image,\
                 height = height, width = width,  num_inference_steps=num_inference_steps,\
-                cross_attention_kwargs={"scale": lora_scale},\
-                generator=torch.manual_seed(0)).images[0]
+                cross_attention_kwargs={"scale": lora_scale}).images[0]
     return image
 
 
@@ -57,7 +56,7 @@ def save_image(image, config):
     image.save(save_path)
 
 
-def inpaint(cfg_path):
+def inpaint(cfg_path, options):
     with open(cfg_path) as f:
         config = json.load(f)
     img = inpaint_inference(config)
