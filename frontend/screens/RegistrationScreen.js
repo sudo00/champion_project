@@ -1,6 +1,6 @@
 import { Button, ButtonText, Card, Center, Heading, Input, InputField, Text, VStack } from "@gluestack-ui/themed"
 import { useState } from "react";
-import { register } from "../api/register";
+import { register, registerReguset } from "../api/register";
 
 const RegistrationScreen = ({ navigation }) => {
     const [password, setPassword] = useState("")
@@ -9,12 +9,19 @@ const RegistrationScreen = ({ navigation }) => {
     let isNextEnabled = password == passwordRepeat && password.length > 8
 
     const onRegistration = () => {
-        register(
+        registerReguset(
             {
                 username: login,
                 password: password
             }
-        )
+        ).then((response) => {
+            console.log(response)
+            if (response.status == 201) {
+                navigation.replace("ImageGenerator")
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
     }
     const onBack = () => {
         navigation.replace("Auth")

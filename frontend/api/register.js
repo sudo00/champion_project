@@ -1,16 +1,13 @@
 import axios from "axios"
 import { err } from "react-native-svg"
+import { generateImageApi } from "./baseApi"
 
-export const register = ({username, password}) => {
-    axios.post(
-        url = "http://backend:4000/register",
+export const registerReguset = ({username, password}) => {
+    return generateImageApi.post(
+        url = "/register",
         data = {
             username: username,
             password: password,
         }
-    ).then((response) => {
-        console.log(response)
-    }).catch((error) => {
-        console.log(error)
-    })
+    )
 }

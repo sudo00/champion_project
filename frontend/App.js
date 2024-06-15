@@ -49,6 +49,15 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
+            name="Auth"
+            component={AuthScreen}
+            options={{
+              title: SERVICE_NAME,
+              headerStyle: headerStyle,
+              headerLeft: headerLeft,
+            }}
+          />
+          <Stack.Screen
             name="ImageGenerator"
             component={ImageGeneratorScreen}
             options={{
@@ -59,22 +68,13 @@ export default function App() {
             }}
           />
           <Stack.Screen
-            name="Auth"
-            component={AuthScreen}
-            options={{
-              title: SERVICE_NAME,
-              headerStyle: headerStyle,
-              headerLeft: headerLeft,
-            }}
-          />
-          <Stack.Screen
             name="Registration"
             component={RegistrationScreen}
             options={{
               title: SERVICE_NAME,
               headerStyle: headerStyle,
               headerLeft: headerLeft,
-            }}/>
+            }} />
         </Stack.Navigator>
       </NavigationContainer>
     </GluestackUIProvider>
