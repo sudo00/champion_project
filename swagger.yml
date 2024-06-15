@@ -161,6 +161,23 @@ paths:
       responses:
         '200':
           description: Image
+  /image/{id}:
+    delete:
+      tags:
+        - "Image"
+      summary: Remove image from history
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: id
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Image Removed
 components:
   securitySchemes:
     bearerAuth:
