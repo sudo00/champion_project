@@ -14,11 +14,11 @@ const ImageHistory = ({ imageHistory, refreshHistory}) => {
                     key={historyItem.id}
                     status={historyItem.status}
                     imageId={historyItem.id}
-                    productType={"ПК"}
-                    originalPromt={"Test promt"}
+                    productType={historyItem.options.negative_prompt}
+                    originalPromt={historyItem.options.positive_prompt}
                     imageName={historyItem.object_name}
-                    imageWidth={512}
-                    imageHeight={512}
+                    imageWidth={historyItem.options.width}
+                    imageHeight={historyItem.options.height}
                     onRefresh={refreshHistory}
                 />
             )
@@ -28,16 +28,6 @@ const ImageHistory = ({ imageHistory, refreshHistory}) => {
             <ScrollView w="100%" h="100%">
                 <VStack p="$10" space="md">
                     {renderHistoryItems()}
-                    {/* <ImageResponseItem
-                    imageId={1}
-                    //bannerType={"NBO"}
-                    productType={"ПК"}
-                    originalPromt={"Test promt"}
-                    imageUrl={"https://res.cloudinary.com/practicaldev/image/fetch/s--kdh2Ubyl--/c_imagga_scale,f_auto,fl_progressive,h_900,q_auto,w_1600/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/gy0yiniansla31xttij5.png"}
-                    imageHeight={900}
-                    imageWidth={1600}
-                //onAddToBannerClick={()=> {}}
-                /> */}
                 </VStack>
             </ScrollView>
     )
