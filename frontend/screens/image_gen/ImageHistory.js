@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { historyRequest } from "../../api/history";
 import { Button } from "react-native-web";
 
-const ImageHistory = ({ imageHistory }) => {
+const ImageHistory = ({ imageHistory, refreshHistory}) => {
     const renderHistoryItems = () => {
         return imageHistory.map((historyItem) => {
             return (
@@ -16,7 +16,7 @@ const ImageHistory = ({ imageHistory }) => {
                     imageId={historyItem.id}
                     productType={"ПК"}
                     originalPromt={"Test promt"}
-                    imageName={"7df411e3-f108-4cfd-b0de-151ccb0812ec.png"}
+                    imageName={historyItem.object_name}
                     imageWidth={512}
                     imageHeight={512}
                     onRefresh={refreshHistory}
@@ -25,7 +25,6 @@ const ImageHistory = ({ imageHistory }) => {
         })
     }
     return (
-        <VStack>
             <ScrollView w="100%" h="100%">
                 <VStack p="$10" space="md">
                     {renderHistoryItems()}
@@ -41,7 +40,6 @@ const ImageHistory = ({ imageHistory }) => {
                 /> */}
                 </VStack>
             </ScrollView>
-        </VStack>
     )
 }
 

@@ -34,6 +34,7 @@ const ImageGeneratorScreen = ({ navigation }) => {
                 <Col size={2}>
                     <ImageHistory
                         imageHistory={imageHistory}
+                        refreshHistory={refreshHistory}
                     />
                 </Col>
             </Row>

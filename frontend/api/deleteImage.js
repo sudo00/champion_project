@@ -7,7 +7,7 @@ export const deleteImageRequest = async ({
 }) => {
     const sessionToken = await AsyncStorage.getItem(SESSION_TOKEN)
     var response = await generateImageApi.delete(
-        url = `/image/${imageName}`,
+        url = `/image/${imageId}`,
         {
             headers: {
                 'Authorization': "Bearer " + sessionToken

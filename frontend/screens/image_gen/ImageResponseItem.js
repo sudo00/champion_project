@@ -148,9 +148,12 @@ const ImageResponseItem = ({
                          </Button> */}
                             </HStack>
                         </VStack> :
-                            <HStack>
+                            <HStack space="md">
                                 <ActivityIndicator/>
                                 <Text>Задача создана...</Text>
+                                <Button onPress={onDeleteItemClick} variant="outline">
+                                    <ButtonIcon as={TrashIcon} />
+                                </Button>
                             </HStack>
                     }
                 </Card>

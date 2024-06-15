@@ -63,6 +63,9 @@ const ImageForm = ({
                 positive_prompt: positivePrompt,
                 negative_prompt: negativePrompt,
                 offer: "",
+            },
+            onSuccess: () => {
+                onRefreshImageHistory()
             }
         })
     }
@@ -179,7 +182,15 @@ const ImageForm = ({
                 <Divider my="$1" />
 
                 <HStack space="md">
-                    <Button w="45%"onPress={onGenerateImage} size="lg">
+                    <Button 
+                    w="45%"
+                    onPress={onGenerateImage} 
+                    size="lg"
+                    isDisabled={
+                        !((imageHeight > 64 && imageHeight < 2048) && (imageWidth > 64 && imageWidth < 2048)
+                        && productType != "")
+                    }
+                    >
                         <ButtonText>Сгенерировать</ButtonText>
                     </Button>
                     <Button w="45%" onPress={onClearInput} size="lg" action="negative">
