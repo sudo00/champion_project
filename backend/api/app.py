@@ -9,6 +9,8 @@ from functools import wraps
 import pika
 import json
 from minio import Minio
+import sys
+import io
 
 app = Flask(__name__)
 CORS(app)
@@ -155,7 +157,6 @@ def generate(current_user):
     
     return jsonify(historyIds), 200
 
-import sys
 @app.route('/history', methods=['GET'])
 @token_required
 def history(current_user):
@@ -167,9 +168,7 @@ def history(current_user):
         history = History.query.filter(History.user_id == current_user.id).all()
     return jsonify([i.serialize for i in history]), 200
 
-import io
 @app.route('/image/<object_name>', methods=['GET'])
-@token_required
 def getImage(current_user, object_name):
     try:
         assert object_name == request.view_args['object_name']
@@ -183,6 +182,16 @@ def getImage(current_user, object_name):
     except Exception as e:
         # Обработка ошибок
         return 'Ошибка при получении изображения: {}'.format(e), 500
+
+@app.route('/image/<id>', methods=['DELETE'])
+@token_required
+def removeImage(current_user, id):
+    assert id == request.view_args['id']
+    history = History.query.filter(History.id == id).first()
+    client.remove_object(bucket_name=bucket, object_name=history.object_name)
+    History.query.filter(History.id == id).delete()
+    db.session.commit()
+    return jsonify({}), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
