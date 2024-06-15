@@ -137,9 +137,9 @@ const ImageResponseItem = ({
                             <Heading>{imageDisplayName}</Heading>
                             <Text>{originalPromt}</Text>
                             <HStack space="md">
-                                <Button onPress={onLoadImageClick}>
+                                {/* <Button onPress={onLoadImageClick}>
                                     <ButtonIcon as={DownloadIcon} />
-                                </Button>
+                                </Button> */}
                                 <Button onPress={onDeleteItemClick} variant="outline">
                                     <ButtonIcon as={TrashIcon} />
                                 </Button>
