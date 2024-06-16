@@ -219,8 +219,11 @@ const ImageForm = ({
                         onPress={onGenerateImage}
                         size="lg"
                         isDisabled={
-                            !((imageHeight > 64 && imageHeight < 2048) && (imageWidth > 64 && imageWidth < 2048)
-                                && productType != "" && customerCategory != "")
+                            !(
+                                (imageHeight > 64 && imageHeight < 1024) &&
+                                (imageWidth > 64 && imageWidth < 1024) &&
+                                productType != "" && customerCategory != ""
+                            )
                         }
                     >
                         <ButtonText>Сгенерировать</ButtonText>
@@ -232,9 +235,9 @@ const ImageForm = ({
                 <Button w="100%" onPress={onRefreshImageHistory} size="lg">
                     <ButtonText>Обновить</ButtonText>
                 </Button>
-                {/* <Button w="100%" onPress={onClearImageHistory} size="lg">
+                <Button w="100%" onPress={onClearImageHistory} size="lg">
                     <ButtonText>Очистить историю</ButtonText>
-                </Button> */}
+                </Button>
             </VStack>
         </ScrollView>
     )
