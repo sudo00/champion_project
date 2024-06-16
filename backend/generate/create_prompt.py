@@ -1,13 +1,33 @@
 import random
 from transformers import pipeline, GPT2LMHeadModel, GPT2Tokenizer, pipeline
+import pickle
+import os.path
+
+def read_generator():
+    if False == os.path.isfile('generator.pkl'):
+        return None
+
+    with open('generator.pkl', 'rb') as inp:
+        generator = pickle.load(inp)
+
+    return generator
+
+def save_generator(generator):
+    with open('generator.pkl', 'wb') as outp:
+        pickle.dump(generator, outp)
 
 #constants 
 # Load a text generation model and tokenizer
-model_name = 'gpt2'
-tokenizer = GPT2Tokenizer.from_pretrained(model_name)
-model = GPT2LMHeadModel.from_pretrained(model_name)
-# Define the text generation pipeline
-generator = pipeline('text-generation', model=model, tokenizer=tokenizer)
+generator = read_generator()
+if None == generator:
+    model_name = 'gpt2'
+    tokenizer = GPT2Tokenizer.from_pretrained(model_name)
+    model = GPT2LMHeadModel.from_pretrained(model_name)
+    # Define the text generation pipeline
+    generator = pipeline('text-generation', model=model, tokenizer=tokenizer)
+    save_generator(generator)
+
+
 
 # Define possible objects for each category and offer
 offer_objects = {
