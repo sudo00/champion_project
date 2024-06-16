@@ -82,7 +82,7 @@ def generate_composition(objects):
     examples = [
         {"objects": ["stack of blue banknotes","dark tie"], "composition":"A stack of blue banknotes wrapped with a dark tie."},
         {"objects": ["A blue globe","orange orbit", "coin"], "composition":"A blue globe with an orange orbit line and a coin inserted at the top"},
-        {"objects": ["dark globe","maroon paper plane"], "composition":"A dark globe with a maroon paper plane pointing towards it, in premium style."},
+        {"objects": ["dark globe","maroon paper plane"], "composition":"A dark globe with a maroon paper plane pointing towards it"},
         {"objects": ["pair of car keys","maroon key fob and dark blue remote"], "composition":"A pair of car keys with a maroon key fob and a dark blue remote."},
         {"objects": ["blue credit card","diamond", "daisy flower"], "composition":"A blue credit card with an orange design next to a diamond and a daisy flower."},
         {"objects": ["blue credit card","gift box","blue bow tie"], "composition":"A blue credit card with an orange design in front of a gift box containing a blue bow tie."},
@@ -90,7 +90,26 @@ def generate_composition(objects):
         {"objects": ["car steering wheel","blue shield keychain"], "composition": "A car steering wheel with a blue shield keychain."},
         {"objects": ["blue car","smoke"], "composition":"A blue car emitting smoke."},
         {"objects": ["black car key","red bow"], "composition":"A black car key with a red bow."},
-        {"objects": ["blue electric car","orange charging station"], "composition":"A blue electric car at an orange charging station."}
+        {"objects": ["blue electric car","orange charging station"], "composition":"A blue electric car at an orange charging station."},
+
+        {"objects": ["dark blue academic cap","gold tassel"], "composition":"A dark blue academic cap with a gold tassel in a premium style."},
+        {"objects": ["smartwatch", "blue checkmark"], "composition":"A smartwatch with a blue checkmark on the screen."},
+        {"objects": ["blue and orange credit card","black ATM machine"], "composition":"A blue and orange credit card being inserted into a black ATM machine."},
+        {"objects": ["blue shield", "silver and gold coins"], "composition":"A blue shield with silver and gold coins."},
+        {"objects": ["orange car","patches of snow"], "composition":"An orange car covered in patches of snow."},
+        {"objects": ["blue car", "orange bow"], "composition":"A blue car with an orange bow on top."},
+        {"objects": ["silver car key fob","orange lock symbols","blue snowflake keychain"], "composition":"A silver car key fob with orange lock symbols and a blue snowflake keychain."},
+        {"objects": ["blue and gold speedometer"], "composition":"A blue and gold speedometer."},
+        {"objects": ["classical bank building","blue accents", "gold coin"], "composition":"A classical bank building with blue accents and a gold coin."},
+        {"objects": ["small house", "palm tree", "pool"], "composition":"A small house with a palm tree and a rooftop pool."},
+        {"objects": ["stack of car tires","gold coin","currency symbol"], "composition":"A stack of car tires next to a gold coin with a currency symbol. "},
+        {"objects": ["blue vase","pink tulips","stack of gold coins"], "composition":"A blue vase with pink tulips next to a stack of gold coins."},
+        {"objects": ["stack of blue banknotes", "orange and grey coins", "airplane and car symbols"], "composition":"A stack of blue banknotes with orange and grey coins displaying airplane and car symbols."},
+        {"objects": ["blue credit card", "orange arrow", "blue shopping bag"], "composition":"A blue credit card with an orange arrow wrapped around a blue shopping bag."},
+        {"objects": ["blue credit card", "glowing checkmark"], "composition":"A blue credit card with an orange design and a glowing checkmark. "},
+        {"objects": ["blue credit card with an orange design", "gift box","orange ribbon", "silver streamers" ], "composition":"A blue credit card with an orange design accompanied by a gift box with an orange ribbon and silver streamers."}
+
+
       ]
     # Prepare the prompt
     prompt = "Here are some example compositions with given objects:\n\n"
