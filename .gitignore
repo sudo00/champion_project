@@ -1,5 +1,6 @@
 /pgdata
 /data
+/backend/generation_scripts/
 /backend/generation_scripts/sd_model
 /backend/generation_scripts/images
 /backend/generation_scripts/.env
