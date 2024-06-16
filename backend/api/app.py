@@ -163,9 +163,9 @@ def history(current_user):
     print(current_user, file=sys.stderr)
     id_get = request.args.getlist('id')
     if id_get:
-        history = History.query.filter(History.user_id == current_user.id, History.id.in_(id_get)).all()
+        history = History.query.filter(History.user_id == current_user.id, History.id.in_(id_get)).order_by(History.id.desc()).all()
     else:
-        history = History.query.filter(History.user_id == current_user.id).all()
+        history = History.query.filter(History.user_id == current_user.id).order_by(History.id.desc()).all()
     return jsonify([i.serialize for i in history]), 200
 
 @app.route('/image/<object_name>', methods=['GET'])
