@@ -9,18 +9,10 @@ const RegistrationScreen = ({ navigation }) => {
     let isNextEnabled = password == passwordRepeat && password.length > 8
 
     const onRegistration = () => {
-        registerReguset(
-            {
-                username: login,
-                password: password
-            }
-        ).then((response) => {
-            console.log(response)
-            if (response.status == 201) {
+        registerReguset({
+            username: login, password: password, onSuccess: () => {
                 navigation.replace("ImageGenerator")
             }
-        }).catch((error) => {
-            console.log(error)
         })
     }
     const onBack = () => {

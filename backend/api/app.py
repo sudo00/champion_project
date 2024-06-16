@@ -169,7 +169,8 @@ def history(current_user):
     return jsonify([i.serialize for i in history]), 200
 
 @app.route('/image/<object_name>', methods=['GET'])
-def getImage(current_user, object_name):
+# @token_required
+def getImage(object_name):
     try:
         assert object_name == request.view_args['object_name']
         response = client.get_object(bucket_name=bucket, object_name=object_name)

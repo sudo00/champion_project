@@ -7,15 +7,11 @@ const AuthScreen = ({ navigation }) => {
         navigation.replace("Registration")
     }
     const onLogin = () => {
-        loginRequest({ username: login, password: password })
-            .then((response) => {
-                console.log(response)
-                if (response.status == 200) {
-                    navigation.replace("ImageGenerator")
-                }
-            }).catch((error) => {
-                console.log(error)
-            })
+        loginRequest({
+            username: login, password: password, onSuccess: () => {
+                navigation.replace("ImageGenerator")
+            }
+        })
 
     }
     const [login, setLogin] = useState("")

@@ -9,11 +9,15 @@ import { config } from "@gluestack-ui/config"
 import { APP_HEADER_HEIGHT } from './screens/ScreenConst';
 import AuthScreen from './screens/AuthScreen';
 import RegistrationScreen from './screens/RegistrationScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { SESSION_TOKEN } from './api/login';
 
 
 // TODO
-// Карусель изображений в истории (когда было сгенерировано несколько изображений)
-// Загрузка изображений и данных о них
+// Выделять карточки разных тасок
+// Обновлять историю
+
+// Скачивание изображений и данных о них
 const SERVICE_NAME = `Сервис генерации \n маркетинговых изображений`
 const headerStyle = {
   height: APP_HEADER_HEIGHT,
@@ -25,13 +29,16 @@ const headerLeft = () => (
 
 const headerRight = () => {
   const navigation = useNavigation()
-  const onExit = () => { navigation.replace("Auth") }
+  const onExit = () => {
+    AsyncStorage.setItem(SESSION_TOKEN, "") 
+    navigation.replace("Auth") 
+  }
   return (
     <HStack space='xs'>
-      <Avatar>
-        <AvatarFallbackText>Denis S</AvatarFallbackText>
+      {/* <Avatar>
+        <AvatarFallbackText></AvatarFallbackText>
       </Avatar>
-      <Heading mr='$5'>Denis S</Heading>
+      <Heading mr='$5'></Heading> */}
       <Button mr='$5' variant="outline" onPress={onExit}>
         <ButtonText>Выйти</ButtonText>
       </Button>
