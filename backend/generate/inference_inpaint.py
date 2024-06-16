@@ -18,11 +18,6 @@ if False == client.bucket_exists(bucket):
     client.make_bucket(bucket)
 
 def inpaint_inference(config, options, original_image, mask) -> Image: 
-    # images = [
-    #     Image.open("mock/1.png")
-    # ]
-        
-    # return images
     sd_path = config['inpaint']["stable_diffusion_path"]
 
     lora_rel_path = config["lora_path"]
@@ -59,9 +54,7 @@ def inpaint_inference(config, options, original_image, mask) -> Image:
 
     image = pipe(prompt=positive_prompt, \
                  negative_prompt=negative_prompt, 
-                image=init_image, mask_image=mask_image,\
-                # height = height, 
-                # width = width,  
+                image=init_image, mask_image=mask_image, 
                 num_inference_steps=num_inference_steps,\
                 cross_attention_kwargs={"scale": lora_scale}).images
     return image

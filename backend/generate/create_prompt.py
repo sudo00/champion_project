@@ -103,7 +103,7 @@ def generate_composition(objects):
     prompt += (
         f"Now, generate a new composition for the following objects:\n"
         f"Objects:{objects}\n"
-        f"Composition: Acolor_restrictions_offerd_composition
+        f"Composition: A")
 
 def get_objects(offer, category, dir_color_restrictions):
     if offer in ["car loan", "home mortgage"]:
@@ -111,6 +111,8 @@ def get_objects(offer, category, dir_color_restrictions):
     else:
         color_restrictions = dir_color_restrictions[offer]
         objects = generate_objects(category, color_restrictions)
+    if offer== "blue credit card with orange ornament":
+        objects.append('credit card')
     return objects
 
 def get_composition(objects):
@@ -131,7 +133,10 @@ def generate_promp_by_user_info(offer, category):
 
 def run(product_type, category):
     objects = get_objects(product_type, category, dir_color_restrictions)
-    return get_composition(objects)
+    composition = str(get_composition(objects))
+    if product_type == 'premium account':
+        composition+=', in premium style.'
+    return composition
 
 
 ##usage examples

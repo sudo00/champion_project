@@ -22,13 +22,6 @@ if False == client.bucket_exists(bucket):
 
 
 def txt2img(config, options):
-    # images = [
-    #     Image.open("mock/1.png"),
-    #     Image.open("mock/2.png"),
-    #     Image.open("mock/3.png")
-    # ]
-        
-    # return images
     sd_path = config["inference"]["stable_diffusion_path"]
 
     lora_rel_path = config["lora_path"]
@@ -41,13 +34,13 @@ def txt2img(config, options):
     n_user = options['negative_prompt']
     offer = options['offer']
     category = options['category']
-    if offer!="":
+    if p_user=="":
         p_user = run(offer, category)
 
 
     height = options['height']
     width = options['width']
-    num_images_per_prompt = options['count']
+    num_images_per_prompt = int(options['count'])
 
     p_start = config['inference']['p_start']
     p_end = config['inference']['p_end']
@@ -66,7 +59,7 @@ def txt2img(config, options):
     negative_prompt = f"{n_user} {n_end}"
 
     return pipe.text2img(prompt=positive_prompt, negative_prompt=negative_prompt,\
-                height = height, width = width,  num_inference_steps=num_inference_steps, num_images_per_prompt = num_images_per_prompt, 
+                height = height, width = width,  num_inference_steps=num_inference_steps, num_images_per_prompt = num_images_per_prompt, \
                 cross_attention_kwargs={"scale": lora_scale},
                 ).images # тут массив картинок, нужно сохранять их
 
