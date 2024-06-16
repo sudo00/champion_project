@@ -8,7 +8,8 @@ import uuid
 import psycopg2
 from os import environ
 from minio import Minio
-import io
+import os.path
+import pickle
 
 conn = psycopg2.connect(dsn=environ.get('DATABASE_URL'))
 cursor = conn.cursor()
@@ -41,9 +42,12 @@ def inpaint_inference(config, options, original_image, mask) -> Image:
     lora_scale = config['lora_scale']
     num_inference_steps = config['num_inference_steps']
 
-    pipe = AutoPipelineForInpainting.from_pretrained(sd_path, torch_dtype=torch.float16, variant="fp16").to("cuda")
-    pipe.load_lora_weights(pretrained_model_name_or_path_or_dict=lora_dir, weight_name=lora_path, adapter_name="gpb")
-    pipe.to(device)
+    pipe = read_pipe()
+    if None == pipe:
+        pipe = AutoPipelineForInpainting.from_pretrained(sd_path, torch_dtype=torch.float16, variant="fp16").to("cuda")
+        pipe.load_lora_weights(pretrained_model_name_or_path_or_dict=lora_dir, weight_name=lora_path, adapter_name="gpb")
+        pipe.to(device)
+        save_pipe(pipe)
 
     # load base and mask image
     init_image = original_image
@@ -103,3 +107,16 @@ def saveFileToS3(body, file_path):
         insert_query = f"UPDATE history set status='done', object_name='{result.object_name}' WHERE user_id={user_id} AND id={historyId}"
         cursor.execute(insert_query)
     conn.commit()
+
+def read_pipe():
+    if False == os.path.isfile('pipe_inpaint.pkl'):
+        return None
+
+    with open('pipe_inpaint.pkl', 'rb') as inp:
+        pipe = pickle.load(inp)
+
+    return pipe
+
+def save_pipe(pipe):
+    with open('pipe_inpaint.pkl', 'wb') as outp:
+        pickle.dump(pipe, outp)

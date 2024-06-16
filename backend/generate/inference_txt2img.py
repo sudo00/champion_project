@@ -9,7 +9,8 @@ import uuid
 import psycopg2
 from os import environ
 from minio import Minio
-import io
+import pickle
+import os.path
 
 
 conn = psycopg2.connect(dsn=environ.get('DATABASE_URL'))
@@ -60,9 +61,13 @@ def txt2img(config, options, historyIds, user_id):
     strength = config['strength']
     lora_scale = config['lora_scale']
     num_inference_steps = config['num_inference_steps']
-    pipe = StableDiffusionPipeline.from_pretrained(sd_path,  custom_pipeline="lpw_stable_diffusion",torch_dtype=torch.float32)
-    pipe.load_lora_weights(pretrained_model_name_or_path_or_dict=lora_dir, weight_name=lora_path, adapter_name="gpb")
-    pipe.to(device)
+    pipe = read_pipe()
+    if None == pipe:
+        pipe = StableDiffusionPipeline.from_pretrained(sd_path,  custom_pipeline="lpw_stable_diffusion",torch_dtype=torch.float32)
+        pipe.load_lora_weights(pretrained_model_name_or_path_or_dict=lora_dir, weight_name=lora_path, adapter_name="gpb")
+        pipe.to(device)
+        save_pipe(pipe)
+    
 
     # тип продукта
     positive_prompt = f"{p_start} {p_user}  in gpb style, {p_end} This image is ideal for {offer} promotion"
@@ -119,5 +124,16 @@ def inference(cfg_path, body):
         file_path = save_path + uuidStr + ".png"
         image.save(file_path)
         saveFileToS3(body, file_path)
-    
 
+def read_pipe():
+    if False == os.path.isfile('pipe.pkl'):
+        return None
+
+    with open('pipe.pkl', 'rb') as inp:
+        pipe = pickle.load(inp)
+
+    return pipe
+
+def save_pipe(pipe):
+    with open('pipe.pkl', 'wb') as outp:
+        pickle.dump(pipe, outp)
