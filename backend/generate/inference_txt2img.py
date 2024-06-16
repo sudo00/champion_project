@@ -21,7 +21,7 @@ if False == client.bucket_exists(bucket):
     client.make_bucket(bucket)
 
 
-def txt2img(config, options):
+def txt2img(config, options, historyIds, user_id):
     sd_path = config["inference"]["stable_diffusion_path"]
 
     lora_rel_path = config["lora_path"]
@@ -36,6 +36,16 @@ def txt2img(config, options):
     category = options['category']
     if p_user=="":
         p_user = run(offer, category)
+        for history in historyIds:
+            historyId = history["id"]
+            insert_query = f"SELECT options FROM history WHERE user_id={user_id} AND id={historyId}"
+            cursor.execute(insert_query) 
+            options = json.loads(cursor.fetchone()[0])
+            options['generated_prompt'] = p_user
+            options_string = json.dumps(options)
+            insert_query = f"UPDATE history set options={options_string} WHERE user_id={user_id} AND id={historyId}"
+            cursor.execute(insert_query) 
+        conn.commit()
 
 
     height = options['height']
@@ -96,7 +106,7 @@ def inference(cfg_path, body):
         cursor.execute(insert_query)
     conn.commit()
 
-    images = txt2img(config, body["options"])
+    images = txt2img(config, body["options"], body['history_ids'], body["user_id"])
     
 
     save_path = config["save_path"]
