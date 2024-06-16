@@ -18,14 +18,14 @@ def save_generator(generator):
 
 #constants 
 # Load a text generation model and tokenizer
-generator = read_generator()
-if None == generator:
-    model_name = 'gpt2'
-    tokenizer = GPT2Tokenizer.from_pretrained(model_name)
-    model = GPT2LMHeadModel.from_pretrained(model_name)
-    # Define the text generation pipeline
-    generator = pipeline('text-generation', model=model, tokenizer=tokenizer)
-    save_generator(generator)
+# generator = read_generator()
+# if None == generator:
+model_name = 'gpt2'
+tokenizer = GPT2Tokenizer.from_pretrained(model_name)
+model = GPT2LMHeadModel.from_pretrained(model_name)
+# Define the text generation pipeline
+generator = pipeline('text-generation', model=model, tokenizer=tokenizer)
+    # save_generator(generator)
 
 
 
@@ -110,24 +110,24 @@ def generate_composition(objects):
         {"objects": ["car steering wheel","blue shield keychain"], "composition": "A car steering wheel with a blue shield keychain."},
         {"objects": ["blue car","smoke"], "composition":"A blue car emitting smoke."},
         {"objects": ["black car key","red bow"], "composition":"A black car key with a red bow."},
-        {"objects": ["blue electric car","orange charging station"], "composition":"A blue electric car at an orange charging station."},
+        {"objects": ["blue electric car","orange charging station"], "composition":"A blue electric car at an orange charging station."}#,
 
-        {"objects": ["dark blue academic cap","gold tassel"], "composition":"A dark blue academic cap with a gold tassel in a premium style."},
-        {"objects": ["smartwatch", "blue checkmark"], "composition":"A smartwatch with a blue checkmark on the screen."},
-        {"objects": ["blue and orange credit card","black ATM machine"], "composition":"A blue and orange credit card being inserted into a black ATM machine."},
-        {"objects": ["blue shield", "silver and gold coins"], "composition":"A blue shield with silver and gold coins."},
-        {"objects": ["orange car","patches of snow"], "composition":"An orange car covered in patches of snow."},
-        {"objects": ["blue car", "orange bow"], "composition":"A blue car with an orange bow on top."},
-        {"objects": ["silver car key fob","orange lock symbols","blue snowflake keychain"], "composition":"A silver car key fob with orange lock symbols and a blue snowflake keychain."},
-        {"objects": ["blue and gold speedometer"], "composition":"A blue and gold speedometer."},
-        {"objects": ["classical bank building","blue accents", "gold coin"], "composition":"A classical bank building with blue accents and a gold coin."},
-        {"objects": ["small house", "palm tree", "pool"], "composition":"A small house with a palm tree and a rooftop pool."},
-        {"objects": ["stack of car tires","gold coin","currency symbol"], "composition":"A stack of car tires next to a gold coin with a currency symbol. "},
-        {"objects": ["blue vase","pink tulips","stack of gold coins"], "composition":"A blue vase with pink tulips next to a stack of gold coins."},
-        {"objects": ["stack of blue banknotes", "orange and grey coins", "airplane and car symbols"], "composition":"A stack of blue banknotes with orange and grey coins displaying airplane and car symbols."},
-        {"objects": ["blue credit card", "orange arrow", "blue shopping bag"], "composition":"A blue credit card with an orange arrow wrapped around a blue shopping bag."},
-        {"objects": ["blue credit card", "glowing checkmark"], "composition":"A blue credit card with an orange design and a glowing checkmark. "},
-        {"objects": ["blue credit card with an orange design", "gift box","orange ribbon", "silver streamers" ], "composition":"A blue credit card with an orange design accompanied by a gift box with an orange ribbon and silver streamers."}
+        # {"objects": ["dark blue academic cap","gold tassel"], "composition":"A dark blue academic cap with a gold tassel in a premium style."},
+        # {"objects": ["smartwatch", "blue checkmark"], "composition":"A smartwatch with a blue checkmark on the screen."},
+        # {"objects": ["blue and orange credit card","black ATM machine"], "composition":"A blue and orange credit card being inserted into a black ATM machine."},
+        # {"objects": ["blue shield", "silver and gold coins"], "composition":"A blue shield with silver and gold coins."},
+        # {"objects": ["orange car","patches of snow"], "composition":"An orange car covered in patches of snow."},
+        # {"objects": ["blue car", "orange bow"], "composition":"A blue car with an orange bow on top."},
+        # {"objects": ["silver car key fob","orange lock symbols","blue snowflake keychain"], "composition":"A silver car key fob with orange lock symbols and a blue snowflake keychain."},
+        # {"objects": ["blue and gold speedometer"], "composition":"A blue and gold speedometer."},
+        # {"objects": ["classical bank building","blue accents", "gold coin"], "composition":"A classical bank building with blue accents and a gold coin."},
+        # {"objects": ["small house", "palm tree", "pool"], "composition":"A small house with a palm tree and a rooftop pool."},
+        # {"objects": ["stack of car tires","gold coin","currency symbol"], "composition":"A stack of car tires next to a gold coin with a currency symbol. "},
+        # {"objects": ["blue vase","pink tulips","stack of gold coins"], "composition":"A blue vase with pink tulips next to a stack of gold coins."},
+        # {"objects": ["stack of blue banknotes", "orange and grey coins", "airplane and car symbols"], "composition":"A stack of blue banknotes with orange and grey coins displaying airplane and car symbols."},
+        # {"objects": ["blue credit card", "orange arrow", "blue shopping bag"], "composition":"A blue credit card with an orange arrow wrapped around a blue shopping bag."},
+        # {"objects": ["blue credit card", "glowing checkmark"], "composition":"A blue credit card with an orange design and a glowing checkmark. "},
+        # {"objects": ["blue credit card with an orange design", "gift box","orange ribbon", "silver streamers" ], "composition":"A blue credit card with an orange design accompanied by a gift box with an orange ribbon and silver streamers."}
 
 
       ]
@@ -142,7 +142,15 @@ def generate_composition(objects):
     prompt += (
         f"Now, generate a new composition for the following objects:\n"
         f"Objects:{objects}\n"
-        f"Composition: A")
+        f"Composition: A"
+     )
+    # Generate text
+    generated_text = generator(prompt, max_new_tokens=50, num_return_sequences=1, pad_token_id=50256)[0]['generated_text']
+    # Extract the composition
+    generated_composition = generated_text.replace(prompt, "").strip().split("\n")[0]
+
+    return generated_composition
+    
 
 def get_objects(offer, category, dir_color_restrictions):
     if offer in ["car loan", "home mortgage"]:
@@ -165,9 +173,9 @@ def get_composition(objects):
     return composition
 
 
-def generate_promp_by_user_info(offer, category):
-    objects = get_objects(offer, category, dir_color_restrictions)
-    print("Generated Objects:", objects)
+# def generate_promp_by_user_info(offer, category):
+#     objects = get_objects(offer, category, dir_color_restrictions)
+    # print("Generated Objects:", objects)
 
 
 def run(product_type, category):

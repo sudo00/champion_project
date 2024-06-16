@@ -41,10 +41,10 @@ def txt2img(config, options, historyIds, user_id):
             historyId = history["id"]
             insert_query = f"SELECT options FROM history WHERE user_id={user_id} AND id={historyId}"
             cursor.execute(insert_query) 
-            options = json.loads(cursor.fetchone()[0])
+            options = cursor.fetchone()[0]#json.loads(cursor.fetchone()[0])
             options['generated_prompt'] = p_user
             options_string = json.dumps(options)
-            insert_query = f"UPDATE history set options={options_string} WHERE user_id={user_id} AND id={historyId}"
+            insert_query = f"UPDATE history set options='{options_string}' WHERE user_id={user_id} AND id={historyId}"
             cursor.execute(insert_query) 
         conn.commit()
 
@@ -61,12 +61,12 @@ def txt2img(config, options, historyIds, user_id):
     strength = config['strength']
     lora_scale = config['lora_scale']
     num_inference_steps = config['num_inference_steps']
-    pipe = read_pipe()
-    if None == pipe:
-        pipe = StableDiffusionPipeline.from_pretrained(sd_path,  custom_pipeline="lpw_stable_diffusion",torch_dtype=torch.float32)
-        pipe.load_lora_weights(pretrained_model_name_or_path_or_dict=lora_dir, weight_name=lora_path, adapter_name="gpb")
-        pipe.to(device)
-        save_pipe(pipe)
+    # pipe = read_pipe()
+    # if None == pipe:
+    pipe = StableDiffusionPipeline.from_pretrained(sd_path,  custom_pipeline="lpw_stable_diffusion",torch_dtype=torch.float32)
+    pipe.load_lora_weights(pretrained_model_name_or_path_or_dict=lora_dir, weight_name=lora_path, adapter_name="gpb")
+    pipe.to(device)
+    # save_pipe(pipe)
     
 
     # тип продукта

@@ -42,12 +42,12 @@ def inpaint_inference(config, options, original_image, mask) -> Image:
     lora_scale = config['lora_scale']
     num_inference_steps = config['num_inference_steps']
 
-    pipe = read_pipe()
-    if None == pipe:
-        pipe = AutoPipelineForInpainting.from_pretrained(sd_path, torch_dtype=torch.float16, variant="fp16").to("cuda")
-        pipe.load_lora_weights(pretrained_model_name_or_path_or_dict=lora_dir, weight_name=lora_path, adapter_name="gpb")
-        pipe.to(device)
-        save_pipe(pipe)
+    # pipe = read_pipe()
+    # if None == pipe:
+    pipe = AutoPipelineForInpainting.from_pretrained(sd_path, torch_dtype=torch.float16, variant="fp16").to("cuda")
+    pipe.load_lora_weights(pretrained_model_name_or_path_or_dict=lora_dir, weight_name=lora_path, adapter_name="gpb")
+    pipe.to(device)
+        # save_pipe(pipe)
 
     # load base and mask image
     init_image = original_image
