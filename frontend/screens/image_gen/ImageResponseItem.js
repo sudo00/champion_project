@@ -130,7 +130,7 @@ const ImageResponseItem = ({
                                     <Image
                                         style={styles.generatedImage}
                                         backgroundColor={EXTRA_COLOR}
-                                        source={{ uri: `http://localhost:4000/image/${imageName}` }}
+                                        source={{ uri: `http://109.248.37.46:4000/image/${imageName}` }}
                                     />
                                 </TouchableOpacity>
                             </Center>

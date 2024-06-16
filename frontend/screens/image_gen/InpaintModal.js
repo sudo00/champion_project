@@ -94,7 +94,7 @@ export const InpaintModal = ({
                                     <FullWidthImage
                                         width={imageWidth}
                                         height={imageHeight}
-                                        source={{ uri: `http://localhost:4000/image/${imageName}` }}
+                                        source={{ uri: `http://109.248.37.46:4000/image/${imageName}` }}
                                     />
                                     <Svg style={{
                                         elevation: 10,

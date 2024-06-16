@@ -144,7 +144,10 @@ export const BannerModal = ({
                 </ModalBody>
                 <ModalFooter>
                     <HStack>
-                        <Button onPress={onAddToBannerClick.bind(null, bannerType, contentPosition, backgroundColor)}>
+                        <Button
+                            onPress={onAddToBannerClick.bind(null, bannerType, contentPosition, backgroundColor)}
+                            isDisabled={!(bannerType != "" && backgroundColor != "" && contentPosition != "")}
+                        >
                             <ButtonText>Добавить</ButtonText>
                         </Button>
                         <Button variant="outline" onPress={onClose}>

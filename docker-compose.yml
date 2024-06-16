@@ -48,6 +48,13 @@ services:
       - db
       - s3
       - rabbitmq
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
 
   s3:
     container_name: s3

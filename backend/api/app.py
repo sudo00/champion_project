@@ -196,5 +196,6 @@ def removeImage(current_user, id):
     return jsonify({}), 200
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # app.run(debug=True, host="109.248.37.46")
+    app.run(host='0.0.0.0', port=4000)
     

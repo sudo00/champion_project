@@ -202,9 +202,9 @@ def gen_banner(body):
             pass
     result_img = generate_banner(
         input_img=image,
-        banner_color=BannerColor(body['options']['color']).value,
+        banner_color=body['options']['color'],
         banner_type=baner_type,
-        content_position=ContentPosition(body['options']['position']).value,
+        content_position=body['options']['position'],
     )
     uuidStr = str(uuid.uuid4())
     file_path = "./images/" + uuidStr + ".png"

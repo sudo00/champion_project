@@ -9,7 +9,7 @@
     "inference":{
         "stable_diffusion_path":"runwayml/stable-diffusion-v1-5",
         "p_start": "<lora:Lora_30k_data5:1>, Create a 3D illustration in gpb style",
-        "p_end": "with minimal details, smooth surfaces, and a cartoon-like appearance.Ensure the design is sleek and modern. (cat: 100)",
+        "p_end": "with minimal details, smooth surfaces, and a cartoon-like appearance.Ensure the design is sleek and modern.",
         "n_end": "Avoid adding realistic textures, intricate architectural details, or complex backgrounds. Do not include detailed reflections, shadows, or high-detail coin designs. Keep the overall appearance minimalistic and stylized. ((((ugly)))), (((duplicate))), ((morbid)), ((mutilated)), [out of frame],blurry, (((bad proportions))), (((disfigured))), out of frame, ugly"
     }
 }

@@ -42,18 +42,21 @@ export const InpaintPromtModal = ({
                     </ModalCloseButton>
                 </ModalHeader>
                 <ModalBody>
-                        <VStack space="md" m="0$">
-                            <Textarea m="0$" w="100%">
-                                <TextareaInput value={positivePrompt} onChangeText={setPositivePrompt} placeholder="Промт" />
-                            </Textarea>
-                            <Textarea m="0$" w="100%">
-                                <TextareaInput value={negativePrompt} onChangeText={setNegativePrompt} placeholder="Негативный промт" />
-                            </Textarea>
-                        </VStack>
+                    <VStack space="md" m="0$">
+                        <Textarea m="0$" w="100%">
+                            <TextareaInput value={positivePrompt} onChangeText={setPositivePrompt} placeholder="Промт" />
+                        </Textarea>
+                        <Textarea m="0$" w="100%">
+                            <TextareaInput value={negativePrompt} onChangeText={setNegativePrompt} placeholder="Негативный промт" />
+                        </Textarea>
+                    </VStack>
                 </ModalBody>
                 <ModalFooter>
                     <HStack>
-                        <Button onPress={onGenerateInpaintClick.bind(null, positivePrompt, negativePrompt)}>
+                        <Button
+                            isDisabled={positivePrompt == ""}
+                            onPress={onGenerateInpaintClick.bind(null, positivePrompt, negativePrompt)}
+                        >
                             <ButtonText>Сгенерировать</ButtonText>
                         </Button>
                         <Button variant="outline" onPress={onClose}>

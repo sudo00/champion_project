@@ -18,11 +18,11 @@ if False == client.bucket_exists(bucket):
     client.make_bucket(bucket)
 
 def inpaint_inference(config, options, original_image, mask) -> Image: 
-    images = [
-        Image.open("mock/1.png")
-    ]
+    # images = [
+    #     Image.open("mock/1.png")
+    # ]
         
-    return images
+    # return images
     sd_path = config['inpaint']["stable_diffusion_path"]
 
     lora_rel_path = config["lora_path"]
@@ -33,8 +33,8 @@ def inpaint_inference(config, options, original_image, mask) -> Image:
 
     p_user = options['positive_prompt']
     n_user = options['negative_prompt']
-    height = options['height']
-    width = options['width']
+    # height = options['height']
+    # width = options['width']
 
     p_start = config['inpaint']['p_start']
     p_end = config['inpaint']['p_end']
@@ -42,6 +42,7 @@ def inpaint_inference(config, options, original_image, mask) -> Image:
 
     guidance_scale = config['guidance_scale']
     strength = config['strength']
+
     lora_scale = config['lora_scale']
     num_inference_steps = config['num_inference_steps']
 
@@ -56,10 +57,13 @@ def inpaint_inference(config, options, original_image, mask) -> Image:
     positive_prompt = f"{p_start} {p_user} {p_end}"
     negative_prompt = f"{n_user} {n_end}"
 
-    image = pipe(prompt=positive_prompt, negative_prompt=negative_prompt, 
+    image = pipe(prompt=positive_prompt, \
+                 negative_prompt=negative_prompt, 
                 image=init_image, mask_image=mask_image,\
-                height = height, width = width,  num_inference_steps=num_inference_steps,\
-                cross_attention_kwargs={"scale": lora_scale})
+                # height = height, 
+                # width = width,  
+                num_inference_steps=num_inference_steps,\
+                cross_attention_kwargs={"scale": lora_scale}).images
     return image
 
 

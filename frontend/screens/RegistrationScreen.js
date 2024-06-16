@@ -6,7 +6,7 @@ const RegistrationScreen = ({ navigation }) => {
     const [password, setPassword] = useState("")
     const [passwordRepeat, setPasswordRepeat] = useState("")
     const [login, setLogin] = useState("")
-    let isNextEnabled = password == passwordRepeat && password.length > 8
+    let isNextEnabled = password == passwordRepeat
 
     const onRegistration = () => {
         registerReguset({

@@ -1,4 +1,5 @@
 ﻿from diffusers import StableDiffusionPipeline, DiffusionPipeline
+from create_prompt import run
 from compel import Compel
 import torch
 from PIL import Image
@@ -21,13 +22,13 @@ if False == client.bucket_exists(bucket):
 
 
 def txt2img(config, options):
-    images = [
-        Image.open("mock/1.png"),
-        Image.open("mock/2.png"),
-        Image.open("mock/3.png")
-    ]
+    # images = [
+    #     Image.open("mock/1.png"),
+    #     Image.open("mock/2.png"),
+    #     Image.open("mock/3.png")
+    # ]
         
-    return images
+    # return images
     sd_path = config["inference"]["stable_diffusion_path"]
 
     lora_rel_path = config["lora_path"]
@@ -36,9 +37,13 @@ def txt2img(config, options):
 
     device = config["device"]
 
-    p_user = options['positive_prompt']
+    p_user = options['positive_prompt'] # xor offer
     n_user = options['negative_prompt']
     offer = options['offer']
+    category = options['category']
+    if offer!="":
+        p_user = run(offer, category)
+
 
     height = options['height']
     width = options['width']
