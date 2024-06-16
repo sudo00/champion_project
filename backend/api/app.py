@@ -15,8 +15,8 @@ import io
 app = Flask(__name__)
 CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DATABASE_URL')
-app.config['SECRET_KEY'] = 'your_secret_key'  # Замените на свой секретный ключ
-app.config['JWT_EXPIRATION_DELTA'] = datetime.timedelta(minutes=30)  # Время жизни токена
+app.config['SECRET_KEY'] = 'super_secret'  # Замените на свой секретный ключ
+app.config['JWT_EXPIRATION_DELTA'] = datetime.timedelta(minutes=1440)  # Время жизни токена
 db = SQLAlchemy(app)
 
 client = Minio(environ.get('S3_ENDPOINT'), environ.get('S3_ACCESS_KEY'), environ.get('S3_SECRET_KEY'), secure=False)
