@@ -149,7 +149,7 @@ const ImageForm = ({
                                 <SelectDragIndicator />
                             </SelectDragIndicatorWrapper>
                             <SelectItem label="Путешествия" value="travel" />
-                            <SelectItem label="Красота и здоровье" value="beauty" />
+                            <SelectItem label="Красота и здоровье" value="health and beauty" />
                             <SelectItem label="Связь и Интернет" value="mobile communications" />
                             <SelectItem label="Заправки" value="gas stations" />
                         </SelectContent>
