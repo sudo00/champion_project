@@ -178,6 +178,16 @@ paths:
       responses:
         '200':
           description: Image Removed
+  /image:
+    delete:
+      tags:
+        - "Image"
+      summary: Remove all images from history
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Images Removed
 components:
   securitySchemes:
     bearerAuth:

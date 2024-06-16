@@ -195,6 +195,17 @@ def removeImage(current_user, id):
     db.session.commit()
     return jsonify({}), 200
 
+@app.route('/image', methods=['DELETE'])
+@token_required
+def removeImages(current_user):
+    histories = History.query.filter(History.user_id == current_user.id).all()
+    History.query.filter(History.user_id == current_user.id).delete()
+    for history in histories:
+        if STATUS_DONE == history.status:
+            client.remove_object(bucket_name=bucket, object_name=history.object_name)
+    db.session.commit()
+    return jsonify({}), 200
+
 if __name__ == '__main__':
     # app.run(debug=True, host="109.248.37.46")
     app.run(host='0.0.0.0', port=4000)
