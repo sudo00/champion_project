@@ -1,6 +1,6 @@
-﻿from diffusers import StableDiffusionPipeline, DiffusionPipeline
+﻿from diffusers import StableDiffusionPipeline#, DiffusionPipeline
 from create_prompt import run
-from compel import Compel
+# from compel import Compel
 import torch
 from PIL import Image
 import json

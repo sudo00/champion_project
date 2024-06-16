@@ -15,14 +15,14 @@ offer_objects = {
     "home mortgage": ["house", "high-rise building", "stack of coins under the roof"],
     "credit card": {
         "travel": ["suitcase", "passport", "airplane ticket"],
-        "beauty": ["lipstick", "makeup set", "perfume"],
-        "mobile communications": ["smartphone", "SIM card", "mobile tower"],
+        "health and beauty": ["lipstick", "makeup set", "perfume"],
+        "mobile communications and internet": ["smartphone", "SIM card", "mobile tower"],
         "gas stations": ["fuel pump", "gas station", "fuel nozzle"]
     },
     "premium account": {
         "travel": ["luxury suitcase", "passport with cover", "first class airplane ticket"],
-        "beauty": ["luxury lipstick", "makeup palette", "designer perfume"],
-        "mobile communications": ["luxury smartphone", "premium SIM card", "mobile tower"],
+        "health and beauty": ["luxury lipstick", "makeup palette", "designer perfume"],
+        "mobile communications and internet": ["luxury smartphone", "premium SIM card", "mobile tower"],
         "gas stations": ["fuel pump", "luxury gas station", "golden fuel nozzle"]
     }
 }
@@ -50,8 +50,8 @@ dir_color_restrictions = {
 def generate_objects(category, color_restrictions, num_objects=3):
     objects = {
         "travel": ["suitcase", "passport", "airplane ticket"],
-        "beauty": ["lipstick", "makeup set", "perfume"],
-        "mobile communications": ["smartphone", "SIM card", "mobile tower"],
+        "health and beauty": ["lipstick", "makeup set", "perfume"],
+        "mobile communications and internet": ["smartphone", "SIM card", "mobile tower"],
         "gas stations": ["fuel pump", "gas station", "fuel nozzle"],
     }
     objects_str = "objects:\n1. "  #f"objects':\n1.  globe\n2.  passport\n3"
@@ -142,7 +142,7 @@ def run(product_type, category):
 ##usage examples
 # # Example usage for step 1
 # offer = "credit card"
-# category = "beauty"
+# category = "health and beauty"
 # objects = get_objects(offer, category, dir_color_restrictions)
 # print("Generated Objects:", objects)
 
@@ -163,7 +163,7 @@ def run(product_type, category):
 
 # # Example usage for step 1
 # offer = "car loan"
-# category = "beauty"
+# category = "health and beauty"
 # objects = get_objects(offer, category, dir_color_restrictions)
 # print("Generated Objects:", objects)
 
