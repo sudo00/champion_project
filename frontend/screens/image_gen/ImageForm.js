@@ -114,7 +114,7 @@ const ImageForm = ({
                             <SelectDragIndicatorWrapper>
                                 <SelectDragIndicator />
                             </SelectDragIndicatorWrapper>
-                            <SelectItem label="Ипотека" value="car loan" />
+                            <SelectItem label="Ипотека" value="home mortgage" />
                             <SelectItem label="Кредитная карта" value="credit card" />
                             <SelectItem label="Автокредит" value="car loan" />
                             <SelectItem label="Премиум" value="premium account" />
@@ -227,9 +227,9 @@ const ImageForm = ({
                 <Button w="100%" onPress={onRefreshImageHistory} size="lg">
                     <ButtonText>Обновить</ButtonText>
                 </Button>
-                <Button w="100%" onPress={onClearImageHistory} size="lg">
+                {/* <Button w="100%" onPress={onClearImageHistory} size="lg">
                     <ButtonText>Очистить историю</ButtonText>
-                </Button>
+                </Button> */}
             </VStack>
         </ScrollView>
     )

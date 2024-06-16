@@ -1,8 +1,15 @@
 import { Button, ButtonText, Card, Center, Heading, Input, InputField, Text, VStack } from "@gluestack-ui/themed"
-import { useState } from "react"
-import { loginRequest } from "../api/login"
+import { useEffect, useState } from "react"
+import { SESSION_TOKEN, loginRequest } from "../api/login"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 const AuthScreen = ({ navigation }) => {
+    useEffect(() => {
+        const sessionToken = AsyncStorage.getItem(SESSION_TOKEN)
+        if (sessionToken != "") {
+            navigation.replace("ImageGenerator")
+        }
+    }, [])
     const onRegistration = () => {
         navigation.replace("Registration")
     }
