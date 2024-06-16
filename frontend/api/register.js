@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { generateImageApi } from "./baseApi"
+import { SESSION_TOKEN } from "./login"
 
 export const registerReguset = async ({username, password, onSuccess}) => {
     var response = await generateImageApi.post(
