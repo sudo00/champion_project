@@ -42,7 +42,7 @@ def txt2img(config, options, historyIds, user_id):
             insert_query = f"SELECT options FROM history WHERE user_id={user_id} AND id={historyId}"
             cursor.execute(insert_query) 
             options = cursor.fetchone()[0]#json.loads(cursor.fetchone()[0])
-            options['generated_prompt'] = p_user
+            options['positive_prompt'] = p_user
             options_string = json.dumps(options)
             insert_query = f"UPDATE history set options='{options_string}' WHERE user_id={user_id} AND id={historyId}"
             cursor.execute(insert_query) 
