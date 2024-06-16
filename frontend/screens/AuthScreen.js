@@ -5,10 +5,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 
 const AuthScreen = ({ navigation }) => {
     useEffect(() => {
-        const sessionToken = AsyncStorage.getItem(SESSION_TOKEN)
-        if (sessionToken != "") {
-            navigation.replace("ImageGenerator")
+        const checkSession = async () => {
+            const sessionToken = await AsyncStorage.getItem(SESSION_TOKEN)
+            if (sessionToken.length > 0) {
+                navigation.replace("ImageGenerator")
+            }
         }
+        checkSession()
     }, [])
     const onRegistration = () => {
         navigation.replace("Registration")

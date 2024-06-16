@@ -193,6 +193,7 @@ export default ImageResponseItem;
 
 const styles = StyleSheet.create({
     generatedImage: {
+        resizeMode: "contain",
         minHeight: "30em",
         minWidth: "30em",
         maxWidth: "35em",

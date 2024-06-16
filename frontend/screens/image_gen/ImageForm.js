@@ -81,17 +81,27 @@ const ImageForm = ({
         setNegativePrompt("")
     }
 
+    const onImageHeghtChanged = (text) => {
+        var i = parseInt(text)
+        setImageHeight(i)
+    }
+
+    const onImageWidthChanged = (text) => {
+        var i = parseInt(text)
+        setImageWidth(i)
+    }
+
     return (
         <ScrollView>
             <VStack p="$3" space="md">
                 <Text size="xl" bold="true">Параметры изображений</Text>
                 <Text size="md">Высота</Text>
                 <Input>
-                    <InputField value={imageHeight} onChangeText={setImageHeight} placeholder="Высота" />
+                    <InputField value={imageHeight} onChangeText={onImageHeghtChanged} placeholder="Высота" />
                 </Input>
                 <Text size="md">Ширина</Text>
                 <Input>
-                    <InputField value={imageWidth} onChangeText={setImageWidth} placeholder="Ширина" />
+                    <InputField value={imageWidth} onChangeText={onImageWidthChanged} placeholder="Ширина" />
                 </Input>
                 <Text size="md">Количество изображений</Text>
                 <Input>
@@ -146,13 +156,10 @@ const ImageForm = ({
                     </SelectPortal>
                 </Select>
 
-
-
                 {/* <Text size="xl" bold="true">Данные о клиенте</Text>
                 <Button onPress={"getImage"} size="lg">
                     <ButtonText>Загрузить</ButtonText>
                 </Button> */}
-
 
                 <Accordion
                     size="lg"
@@ -205,9 +212,7 @@ const ImageForm = ({
                         </AccordionContent>
                     </AccordionItem>
                 </Accordion>
-
                 <Divider my="$1" />
-
                 <HStack space="md">
                     <Button
                         w="45%"
@@ -215,7 +220,7 @@ const ImageForm = ({
                         size="lg"
                         isDisabled={
                             !((imageHeight > 64 && imageHeight < 2048) && (imageWidth > 64 && imageWidth < 2048)
-                                && productType != "")
+                                && productType != "" && customerCategory != "")
                         }
                     >
                         <ButtonText>Сгенерировать</ButtonText>

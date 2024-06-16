@@ -11,6 +11,11 @@ import { historyRequest } from "../../api/history";
 const ImageGeneratorScreen = ({ navigation }) => {
     const [imageHistory, setImageHistory] = useState([])
 
+    useEffect(() => {
+        // Использовать web-socket в будущем!!! >_<
+        setInterval(refreshHistory, 5000)
+    }, [])
+
     const refreshHistory = () => {
         historyRequest({
             onSuccess: (data) => { setImageHistory(data) }
