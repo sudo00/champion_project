@@ -7,14 +7,18 @@ import ImageHistory from "./ImageHistory";
 import ImageForm from "./ImageForm";
 import Header from "../../components/Header";
 import { historyRequest } from "../../api/history";
+import { clearHistoryRequest } from "../../api/clearHistory";
 
 const ImageGeneratorScreen = ({ navigation }) => {
     const [imageHistory, setImageHistory] = useState([])
 
     useEffect(() => {
-        // Использовать web-socket в будущем!!! >_<
-        setInterval(refreshHistory, 5000)
-    }, [])
+        // Использовать web-socket в будущем!!!
+        var timerId = setInterval(refreshHistory, 5000)
+        navigation.addListener('beforeRemove', (e) => {
+            clearInterval(timerId)
+        })
+    }, [navigation])
 
     const refreshHistory = () => {
         historyRequest({
@@ -23,14 +27,16 @@ const ImageGeneratorScreen = ({ navigation }) => {
     }
     const clearHistory = () => {
         clearHistoryRequest(
-            {}
+            {
+                onSuccess: () => { setImageHistory() }
+            }
         )
     }
     useEffect(() => { refreshHistory() }, [])
     return (
         <Grid>
             <Row>
-                <Col size={1} style={{backgroundColor: "white"}}>
+                <Col size={1} style={{ backgroundColor: "white" }}>
                     <ImageForm
                         onClearImageHistory={clearHistory}
                         onRefreshImageHistory={refreshHistory}
