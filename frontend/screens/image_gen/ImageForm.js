@@ -48,6 +48,7 @@ const ImageForm = ({
     const [imageHeight, setImageHeight] = useState(512)
     const [imagesCount, setImagesCount] = useState(1)
     const [productType, setProductType] = useState("")
+    const [customerCategory, setCustomerCategory] = useState("")
 
     const [positivePrompt, setPositivePrompt] = useState('')
     const [negativePrompt, setNegativePrompt] = useState('')
@@ -62,7 +63,8 @@ const ImageForm = ({
                 product_type: productType,
                 positive_prompt: positivePrompt,
                 negative_prompt: negativePrompt,
-                offer: "",
+                category: customerCategory,
+                offer: productType,
             },
             onSuccess: () => {
                 onRefreshImageHistory()
@@ -112,15 +114,40 @@ const ImageForm = ({
                             <SelectDragIndicatorWrapper>
                                 <SelectDragIndicator />
                             </SelectDragIndicatorWrapper>
-                            <SelectItem label="Потребительский кредит" value="ПК" />
-                            <SelectItem label="Кредитная карта" value="КК" />
-                            <SelectItem label="Кредит под залог недвижимости" value="КПЗН" />
-                            <SelectItem label="Премиум" value="Премиум" />
+                            <SelectItem label="Ипотека" value="car loan" />
+                            <SelectItem label="Кредитная карта" value="credit card" />
+                            <SelectItem label="Автокредит" value="car loan" />
+                            <SelectItem label="Премиум" value="premium account" />
+                        </SelectContent>
+                    </SelectPortal>
+                </Select>
+                <Text size="md">Категория клиентских трат</Text>
+                <Select
+                    selectedValue={customerCategory}
+                    onValueChange={setCustomerCategory}
+                >
+                    <SelectTrigger variant="outline" size="md">
+                        <SelectInput placeholder="Категория" />
+                        <SelectIcon mr="$3">
+                            <Icon as={ChevronDownIcon} />
+                        </SelectIcon>
+                    </SelectTrigger>
+                    <SelectPortal>
+                        <SelectBackdrop />
+                        <SelectContent>
+                            <SelectDragIndicatorWrapper>
+                                <SelectDragIndicator />
+                            </SelectDragIndicatorWrapper>
+                            <SelectItem label="Путешествия" value="travel" />
+                            <SelectItem label="Красота и здоровье" value="beauty" />
+                            <SelectItem label="Связь и Интернет" value="mobile communications" />
+                            <SelectItem label="Заправки" value="gas stations" />
                         </SelectContent>
                     </SelectPortal>
                 </Select>
 
-            
+
+
                 {/* <Text size="xl" bold="true">Данные о клиенте</Text>
                 <Button onPress={"getImage"} size="lg">
                     <ButtonText>Загрузить</ButtonText>
@@ -182,14 +209,14 @@ const ImageForm = ({
                 <Divider my="$1" />
 
                 <HStack space="md">
-                    <Button 
-                    w="45%"
-                    onPress={onGenerateImage} 
-                    size="lg"
-                    isDisabled={
-                        !((imageHeight > 64 && imageHeight < 2048) && (imageWidth > 64 && imageWidth < 2048)
-                        && productType != "")
-                    }
+                    <Button
+                        w="45%"
+                        onPress={onGenerateImage}
+                        size="lg"
+                        isDisabled={
+                            !((imageHeight > 64 && imageHeight < 2048) && (imageWidth > 64 && imageWidth < 2048)
+                                && productType != "")
+                        }
                     >
                         <ButtonText>Сгенерировать</ButtonText>
                     </Button>
