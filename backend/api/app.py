@@ -188,7 +188,8 @@ def getImage(current_user, object_name):
 def removeImage(current_user, id):
     assert id == request.view_args['id']
     history = History.query.filter(History.id == id).first()
-    client.remove_object(bucket_name=bucket, object_name=history.object_name)
+    if STATUS_DONE == history.status:
+        client.remove_object(bucket_name=bucket, object_name=history.object_name)
     History.query.filter(History.id == id).delete()
     db.session.commit()
     return jsonify({}), 200
