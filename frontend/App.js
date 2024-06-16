@@ -24,7 +24,7 @@ const headerStyle = {
   backgroundColor: "#F4F6FA"
 }
 const headerLeft = () => (
-  <Image ml='$5' style={styles.headerLogoImage} source={require("./assets/bank_logo.png")} />
+  <Image ml='$5' mr='$10' style={styles.headerLogoImage} source={require("./assets/bank_logo.png")} />
 )
 
 const headerRight = () => {
@@ -96,7 +96,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   headerLogoImage: {
-    width: 100,
+    resizeMode: "contain",
+    width: 250,
     height: APP_HEADER_HEIGHT,
   }
 });
