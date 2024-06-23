@@ -16,8 +16,6 @@ import UserGuideScreen from './screens/UserGuideScreen';
 
 // TODO
 // Выделять карточки разных тасок
-// Обновлять историю
-
 // Скачивание изображений и данных о них
 const SERVICE_NAME = `Сервис генерации \n маркетинговых изображений`
 const headerStyle = {
@@ -43,6 +41,9 @@ const headerRight = () => {
         <AvatarFallbackText></AvatarFallbackText>
       </Avatar>
       <Heading mr='$5'></Heading> */}
+      <Button mr="$5" variant="outline" onPress={onUserGuide}>
+        <ButtonText>Инструкция</ButtonText>
+      </Button>
       <Button mr='$5' variant="outline" onPress={onExit}>
         <ButtonText>Выйти</ButtonText>
       </Button>

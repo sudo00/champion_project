@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import {
     Box, Button, ButtonIcon, ButtonText, Card, Center, CheckCircleIcon, ChevronDownIcon, CloseCircleIcon, CloseIcon, DownloadIcon,
-    HStack, Heading, Icon, Image, Modal, ModalBackdrop, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ScrollView, Select, SelectBackdrop, SelectContent, SelectDragIndicator, SelectDragIndicatorWrapper, SelectIcon, SelectInput, SelectItem, SelectPortal, SelectTrigger, Text, Textarea, TextareaInput, TrashIcon, VStack
+    HStack, Heading, Image,  Icon, Modal, ModalBackdrop, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ScrollView, Select, SelectBackdrop, SelectContent, SelectDragIndicator, SelectDragIndicatorWrapper, SelectIcon, SelectInput, SelectItem, SelectPortal, SelectTrigger, Text, Textarea, TextareaInput, TrashIcon, VStack
 } from "@gluestack-ui/themed"
 import { ActivityIndicator, Pressable, StyleSheet, TouchableOpacity, View } from "react-native"
 import { EXTRA_COLOR } from "../../ColorConst";
@@ -49,17 +49,6 @@ const ImageResponseItem = ({
     const [imageData, setImageData] = useState("https://analytics-space.ru/static-backend/images/img-placeholder.png")
 
     const [inpaintPath, setInpaintPath] = useState("")
-
-    if (status == STATUS_DONE) {
-        getImageRequest(
-            {
-                imageName: imageName,
-                onSuccess: (data) => {
-                    setImageData(data)
-                }
-            }
-        )
-    }
 
     const onAddToBannerClick = () => {
         generateRequest(
@@ -120,6 +109,7 @@ const ImageResponseItem = ({
                 <Card
                     //style={styles.generatedItem}
                     w="70%"
+                    mb="$4"
                     P="$5"
                     variant="elevated"
                 >

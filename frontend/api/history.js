@@ -14,7 +14,7 @@ export const historyRequest = async({onSuccess}) => {
     )
     if (response.status == 200) {
         onSuccess(response.data)
-        console.log(response)
+        //console.log(response)
     } else {
         console.log(response)
     }
