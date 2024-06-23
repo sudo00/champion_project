@@ -158,8 +158,8 @@ def get_objects(offer, category, dir_color_restrictions):
     else:
         color_restrictions = dir_color_restrictions[offer]
         objects = generate_objects(category, color_restrictions)
-    if offer== "blue credit card with orange ornament":
-        objects.append('credit card')
+    if offer== "credit card":
+        objects.append('blue credit card with orange ornament')
     return objects
 
 def get_composition(objects):

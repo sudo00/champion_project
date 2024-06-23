@@ -1,4 +1,5 @@
 ﻿from diffusers import StableDiffusionPipeline#, DiffusionPipeline
+from diffusers import DPMSolverMultistepScheduler
 from create_prompt import run
 # from compel import Compel
 import torch
@@ -65,6 +66,10 @@ def txt2img(config, options, historyIds, user_id):
     # pipe = read_pipe()
     # if None == pipe:
     pipe = StableDiffusionPipeline.from_pretrained(sd_path,  custom_pipeline="lpw_stable_diffusion",torch_dtype=torch.float32)
+    
+    scheduler=DPMSolverMultistepScheduler.from_pretrained("runwayml/stable-diffusion-v1-5", subfolder="scheduler")
+    pipe.scheduler = scheduler
+
     pipe.load_lora_weights(pretrained_model_name_or_path_or_dict=lora_dir, weight_name=lora_path, adapter_name="gpb")
     pipe.to(device)
     # save_pipe(pipe)
@@ -76,7 +81,7 @@ def txt2img(config, options, historyIds, user_id):
 
     return pipe.text2img(prompt=positive_prompt, negative_prompt=negative_prompt,\
                 height = height, width = width,  num_inference_steps=num_inference_steps, num_images_per_prompt = num_images_per_prompt, \
-                cross_attention_kwargs={"scale": lora_scale},
+                cross_attention_kwargs={"scale": lora_scale}, guidance_scale=guidance_scale
                 ).images # тут массив картинок, нужно сохранять их
 
 

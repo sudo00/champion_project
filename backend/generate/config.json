@@ -4,12 +4,12 @@
     "save_path": "images/",
     "device": "cuda",
     "lora_scale": 1,
-    "guidance_scale": 2.5,
+    "guidance_scale": 7,
     "strength": 1.0,
     "inference":{
         "stable_diffusion_path":"runwayml/stable-diffusion-v1-5",
-        "p_start": "<lora:Lora_data9_bs3_trbg:1>",
-        "p_end": "",
+        "p_start": "<lora:Lora_data9_bs3_trbg:1>, Create a 3D illustration of ",
+        "p_end": ", centered on a white background. Ensure the style is low-detail and similar to a cartoon or simplified 3D model.",
         "n_end": "Avoid adding realistic textures, intricate architectural details, or complex backgrounds. Do not include detailed reflections, shadows, or high-detail coin designs. Keep the overall appearance minimalistic and stylized. ((((ugly)))), (((duplicate))), ((morbid)), ((mutilated)), [out of frame],blurry, (((bad proportions))), (((disfigured))), out of frame, ugly"
     }
 }
