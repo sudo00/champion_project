@@ -14,7 +14,7 @@ const AuthScreen = ({ navigation }) => {
         checkSession()
     }, [])
     const onRegistration = () => {
-        navigation.replace("Registration")
+        navigation.navigate("Registration")
     }
     const onLogin = () => {
         loginRequest({

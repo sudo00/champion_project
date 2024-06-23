@@ -11,6 +11,7 @@ import AuthScreen from './screens/AuthScreen';
 import RegistrationScreen from './screens/RegistrationScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SESSION_TOKEN } from './api/login';
+import UserGuideScreen from './screens/UserGuideScreen';
 
 
 // TODO
@@ -31,7 +32,10 @@ const headerRight = () => {
   const navigation = useNavigation()
   const onExit = () => {
     AsyncStorage.setItem(SESSION_TOKEN, "") 
-    navigation.replace("Auth") 
+    navigation.navigate("Auth") 
+  }
+  const onUserGuide = () => {
+    navigation.navigate("UserGuide")
   }
   return (
     <HStack space='xs'>
@@ -43,6 +47,30 @@ const headerRight = () => {
         <ButtonText>Выйти</ButtonText>
       </Button>
     </HStack>
+  )
+}
+
+const preloginHeaderRight = () => {
+  const navigation = useNavigation()
+  const onUserGuide = () => {
+    navigation.navigate("UserGuide")
+  }
+  return (
+    <Button mr="$5" variant="outline" onPress={onUserGuide}>
+        <ButtonText>Инструкция</ButtonText>
+      </Button>
+  )
+}
+
+const guideHeaderRight = () => {
+  const navigation = useNavigation()
+  const onBack = () => {
+    navigation.goBack()
+  }
+  return (
+    <Button mr="$5" variant="outline" onPress={onBack}>
+        <ButtonText>Назад</ButtonText>
+      </Button>
   )
 }
 
@@ -62,6 +90,7 @@ export default function App() {
               title: SERVICE_NAME,
               headerStyle: headerStyle,
               headerLeft: headerLeft,
+              headerRight: preloginHeaderRight,
             }}
           />
           <Stack.Screen
@@ -81,7 +110,18 @@ export default function App() {
               title: SERVICE_NAME,
               headerStyle: headerStyle,
               headerLeft: headerLeft,
+              headerRight: preloginHeaderRight,
             }} />
+            <Stack.Screen
+              name="UserGuide"
+              component={UserGuideScreen}
+              options={{
+                title: SERVICE_NAME,
+                headerStyle: headerStyle,
+                headerLeft: headerLeft,
+                headerRight: guideHeaderRight,
+              }}
+            />
         </Stack.Navigator>
       </NavigationContainer>
     </GluestackUIProvider>

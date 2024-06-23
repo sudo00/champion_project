@@ -16,7 +16,8 @@ const RegistrationScreen = ({ navigation }) => {
         })
     }
     const onBack = () => {
-        navigation.replace("Auth")
+        navigation.goBack()
+        //navigation.replace("Auth")
     }
     return (
         <Center p="$10">
