@@ -1,6 +1,6 @@
 import torch
 from diffusers import AutoPipelineForInpainting
-
+from diffusers import DPMSolverMultistepScheduler
 from PIL import Image
 import json
 import os
@@ -42,12 +42,16 @@ def inpaint_inference(config, options, original_image, mask) -> Image:
     lora_scale = config['lora_scale']
     num_inference_steps = config['num_inference_steps']
 
-    pipe = read_pipe()
-    if None == pipe:
-        pipe = AutoPipelineForInpainting.from_pretrained(sd_path, torch_dtype=torch.float16, variant="fp16").to("cuda")
-        pipe.load_lora_weights(pretrained_model_name_or_path_or_dict=lora_dir, weight_name=lora_path, adapter_name="gpb")
-        pipe.to(device)
-        save_pipe(pipe)
+    # pipe = read_pipe()
+    # if None == pipe:
+    pipe = AutoPipelineForInpainting.from_pretrained(sd_path, torch_dtype=torch.float16, variant="fp16").to("cuda")
+    
+    scheduler=DPMSolverMultistepScheduler.from_pretrained("runwayml/stable-diffusion-v1-5", subfolder="scheduler")
+    pipe.scheduler = scheduler
+
+    pipe.load_lora_weights(pretrained_model_name_or_path_or_dict=lora_dir, weight_name=lora_path, adapter_name="gpb")
+    pipe.to(device)
+        # save_pipe(pipe)
 
     # load base and mask image
     init_image = original_image
@@ -60,7 +64,8 @@ def inpaint_inference(config, options, original_image, mask) -> Image:
                  negative_prompt=negative_prompt, 
                 image=init_image, mask_image=mask_image, 
                 num_inference_steps=num_inference_steps,\
-                cross_attention_kwargs={"scale": lora_scale}).images
+                cross_attention_kwargs={"scale": lora_scale},
+                guidance_scale=guidance_scale).images
     return image
 
 

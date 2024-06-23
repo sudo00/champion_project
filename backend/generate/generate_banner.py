@@ -9,6 +9,7 @@ import uuid
 import os
 from minio import Minio
 from os import environ
+import json
 
 from remove_background import remove_background
 
@@ -211,6 +212,16 @@ def gen_banner(body):
     result_img.save(file_path)
     saveFileToS3(body, file_path)
     
+    select_query = f"SELECT options FROM history WHERE id={image_id}"
+    cursor.execute(select_query) 
+    options = cursor.fetchone()[0]
+    options['width'] = result_img.width
+    options['height'] = result_img.height
+    options_string = json.dumps(options)
+    options_string = options_string.replace("'", "\"")
+    insert_query = f"UPDATE history set options='{options_string}' WHERE id={image_id}"
+    cursor.execute(insert_query) 
+    conn.commit()
     
     
     

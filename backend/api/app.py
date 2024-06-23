@@ -137,6 +137,9 @@ def generate(current_user):
         db.session.commit()
         historyIds.append({"id": history.id})
     if 'inpaint' == typeOfGenerate:
+        history = History.query.filter(History.id == optionsOfGenerate['image_id']).first()
+        optionsOfGenerate['width'] = history['width']
+        optionsOfGenerate['height'] = history['height']
         history = History(user_id=current_user.id, status=STATUS_CREATED, options=optionsOfGenerate)
         db.session.add(history)
         db.session.commit()

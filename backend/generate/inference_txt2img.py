@@ -1,4 +1,5 @@
 ﻿from diffusers import StableDiffusionPipeline#, DiffusionPipeline
+from diffusers import DPMSolverMultistepScheduler
 from create_prompt import run
 # from compel import Compel
 import torch
@@ -41,10 +42,11 @@ def txt2img(config, options, historyIds, user_id):
             historyId = history["id"]
             insert_query = f"SELECT options FROM history WHERE user_id={user_id} AND id={historyId}"
             cursor.execute(insert_query) 
-            options = json.loads(cursor.fetchone()[0])
-            options['generated_prompt'] = p_user
+            options = cursor.fetchone()[0]
+            options['positive_prompt'] = p_user
             options_string = json.dumps(options)
-            insert_query = f"UPDATE history set options={options_string} WHERE user_id={user_id} AND id={historyId}"
+            options_string = options_string.replace("'", "\"")
+            insert_query = f"UPDATE history set options='{options_string}' WHERE user_id={user_id} AND id={historyId}"
             cursor.execute(insert_query) 
         conn.commit()
 
@@ -61,12 +63,16 @@ def txt2img(config, options, historyIds, user_id):
     strength = config['strength']
     lora_scale = config['lora_scale']
     num_inference_steps = config['num_inference_steps']
-    pipe = read_pipe()
-    if None == pipe:
-        pipe = StableDiffusionPipeline.from_pretrained(sd_path,  custom_pipeline="lpw_stable_diffusion",torch_dtype=torch.float32)
-        pipe.load_lora_weights(pretrained_model_name_or_path_or_dict=lora_dir, weight_name=lora_path, adapter_name="gpb")
-        pipe.to(device)
-        save_pipe(pipe)
+    # pipe = read_pipe()
+    # if None == pipe:
+    pipe = StableDiffusionPipeline.from_pretrained(sd_path,  custom_pipeline="lpw_stable_diffusion",torch_dtype=torch.float32)
+    
+    scheduler=DPMSolverMultistepScheduler.from_pretrained("runwayml/stable-diffusion-v1-5", subfolder="scheduler")
+    pipe.scheduler = scheduler
+
+    pipe.load_lora_weights(pretrained_model_name_or_path_or_dict=lora_dir, weight_name=lora_path, adapter_name="gpb")
+    pipe.to(device)
+    # save_pipe(pipe)
     
 
     # тип продукта
@@ -75,7 +81,7 @@ def txt2img(config, options, historyIds, user_id):
 
     return pipe.text2img(prompt=positive_prompt, negative_prompt=negative_prompt,\
                 height = height, width = width,  num_inference_steps=num_inference_steps, num_images_per_prompt = num_images_per_prompt, \
-                cross_attention_kwargs={"scale": lora_scale},
+                cross_attention_kwargs={"scale": lora_scale}, guidance_scale=guidance_scale
                 ).images # тут массив картинок, нужно сохранять их
 
 
