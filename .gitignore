@@ -5,3 +5,5 @@
 /backend/generation_scripts/images
 /backend/generation_scripts/.env
 /backend/generation_scripts/__pycache__
+.env
+/backend/llama_test
